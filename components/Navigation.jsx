@@ -35,7 +35,7 @@ export default function Navigation() {
                 </svg>
             </button>
 
-            <nav className={`lg:flex gap-x-6 transform transition ${isOpen ? 'flex flex-col px-8 py-12 z-50  gap-y-6 absolute inset-y-0 bg-white right-0  translate-x-0 ' : 'hidden max-md:translate-x-full'}`}>
+            <nav className={`lg:flex gap-x-6 transform transition ${isOpen ? 'flex absolute inset-y-0 right-0 z-50 flex-col gap-y-6 px-8 py-12 bg-white translate-x-0' : 'hidden max-md:translate-x-full'}`}>
                 {nav.map(({ href, label }) => (
                     <Link key={href} href={href} className={
                         pathname === href ? 'text-black font-semibold' : ''
@@ -47,8 +47,8 @@ export default function Navigation() {
             <div className={` ${isOpen ? 'fixed inset-0 z-30 bg-black bg-opacity-50' : 'hidden'} `} onClick={() => setOpen(false)}>
 
             </div>
-            <Link href="/contact" className="items-center hidden px-5 py-2 font-medium text-gray-800 bg-white border border-gray-600 rounded-full shadow lg:inline-flex hover:bg-gray-100">
-                Contact Us <TbArrowUpRight className="w-5 h-5 ml-2" />
+            <Link href="/contact" className="hidden items-center px-5 py-2 font-medium text-gray-800 bg-white rounded-full border border-gray-600 shadow lg:inline-flex hover:bg-gray-100">
+                Contact Us <TbArrowUpRight className="ml-2 w-5 h-5" />
             </Link>
         </>
     )

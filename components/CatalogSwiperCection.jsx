@@ -11,12 +11,12 @@ export default function CatalogSwiperSection() {
     return (
         <div className="py-8 lg:py-28">
             <div className="container grid pb-8 lg:grid-cols-2">
-                <div className="text-left ">
+                <div className="text-left">
                     <h1 className="py-4 text-4xl font-medium lg:text-6xl lg:py-0">Modern Classic</h1>
                 </div>
                 <div>
                     <h2 className="pb-6 text-xl font-bold tracking-wider">LUXURY DECOR TO CREATE COMFORT IN OUR HOME</h2>
-                    <div className="grid grid-cols-2 text-gray-500 gap-x-8">
+                    <div className="grid grid-cols-2 gap-x-8 text-gray-500">
                         <div>
                             <p>
                                 With our passion for design and decor, we have created a collection of furniture and accessories that will help you create a comfortable and stylish home.

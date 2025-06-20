@@ -1,14 +1,23 @@
 import Image from "next/image";
-import logo from "../public/logo.png";
+import assets from "@/public/assets";
 import Navigation from "./Navigation";
 
 export default function Header() {
     return (
 
-        <div className="sticky inset-x-0 top-0 z-10 bg-opacity-60 bg-zinc-100 backdrop-blur-lg">
-            <div className="container flex items-center justify-between py-8 ">
+        <div className="sticky inset-x-0 top-0 z-10 bg-opacity-60 backdrop-blur-lg bg-zinc-100">
+            <div className="container flex justify-between items-center py-8">
 
-                <Image src={logo} alt="logo" className="w-40 h-6" />
+                <div className="flex items-center" style={{ width: 160, height: 40 }}>
+                    <Image 
+                        src={assets.logo} 
+                        alt="logo" 
+                        width={160} 
+                        height={40} 
+                        className="object-contain w-full h-full" 
+                        priority
+                    />
+                </div>
 
                 <Navigation />
             </div>
