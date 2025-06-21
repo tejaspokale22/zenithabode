@@ -3,12 +3,12 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaYoutube } from 're
 
 const Offer = () => {
   return (
-    <div className="fixed top-0 right-0 left-0 z-50 px-4 py-2 w-full text-white bg-green-700 sm:px-6">
-      <div className="container flex flex-col gap-2 justify-center items-center mx-auto max-w-7xl text-sm md:flex-row md:justify-between">
-        <p className="font-medium">
+    <div className="fixed top-0 right-0 left-0 z-50 px-4 w-full h-14 text-white bg-green-700 sm:px-6 md:h-10">
+      <div className="container flex flex-col justify-center items-center mx-auto max-w-7xl h-full text-xs sm:text-sm md:flex-row md:justify-between">
+        <p className="hidden font-medium text-center sm:block md:text-left">
           Call Us : +123-456-7890
         </p>
-        <p className="text-center">
+        <p className="text-xs text-center sm:text-sm">
           Sign up and GET 25% OFF for your first order.{' '}
           <a href="#" className="font-semibold text-yellow-400 underline hover:text-yellow-300">
             Sign up now

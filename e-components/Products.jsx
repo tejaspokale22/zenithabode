@@ -75,7 +75,7 @@ const products = [
   const categories = ['All Products', 'Latest Products', 'Best Sellers', 'Featured Products'];
 
 const ProductCard = ({ product }) => (
-    <div className="p-6 text-left bg-gray-50 rounded-2xl group">
+    <div className="p-4 text-left rounded-2xl bg-gray-50/70 group sm:p-6">
         <div className="relative mb-4">
             <div className="absolute top-3 left-3 z-10 px-3 py-1 text-xs font-semibold text-white bg-green-700 rounded-full">{product.discount}</div>
             <div className="flex absolute top-3 right-3 z-10 flex-col space-y-2 opacity-0 transition-opacity group-hover:opacity-100">
@@ -95,10 +95,10 @@ const ProductCard = ({ product }) => (
                     <span className="font-semibold text-gray-700">{product.rating}</span>
                 </div>
             </div>
-            <h3 className="mb-2 text-xl font-bold text-gray-800">{product.name}</h3>
+            <h3 className="mb-2 text-lg font-bold text-gray-800 md:text-xl">{product.name}</h3>
             <div className="flex items-center space-x-2">
-                <p className="text-2xl font-bold text-green-700">${product.price.toFixed(2)}</p>
-                <p className="text-gray-400 line-through">${product.oldPrice.toFixed(2)}</p>
+                <p className="text-xl font-bold text-green-700 md:text-2xl">${product.price.toFixed(2)}</p>
+                <p className="text-base text-gray-400 line-through">${product.oldPrice.toFixed(2)}</p>
             </div>
         </div>
     </div>
@@ -130,22 +130,22 @@ const Products = () => {
                 <span className="mr-3 w-8 h-px bg-yellow-500"></span>
                 <p className="text-sm font-medium tracking-wider text-gray-600 uppercase">Our Products</p>
             </div>
-            <h2 className="text-5xl font-bold text-gray-800">Our Products <span className="text-green-700">Collections</span></h2>
+            <h2 className="text-3xl font-bold text-gray-800 sm:text-4xl lg:text-5xl">Our Products <span className="text-green-700">Collections</span></h2>
         </div>
 
-        <div className="flex justify-center mb-12 space-x-4">
+        <div className="flex flex-wrap gap-2 justify-center mb-8 md:gap-4 md:mb-12">
             {categories.map(category => (
                 <button 
                     key={category}
                     onClick={() => setActiveCategory(category)}
-                    className={`px-6 py-3 rounded-full font-semibold transition-colors text-base ${activeCategory === category ? 'bg-green-700 text-white' : 'bg-gray-100 text-gray-800'}`}
+                    className={`px-4 py-2 text-sm rounded-full font-semibold transition-colors md:px-6 md:py-3 md:text-base ${activeCategory === category ? 'bg-green-700 text-white' : 'bg-gray-100 text-gray-800'}`}
                 >
                     {category}
                 </button>
             ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 md:gap-8">
             {getFilteredProducts().map(product => (
                 <ProductCard key={product.id} product={product} />
             ))}

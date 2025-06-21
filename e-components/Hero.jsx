@@ -17,9 +17,9 @@ const Hero = () => {
         <div className="grid grid-cols-1 gap-8 items-start lg:grid-cols-2">
           {/* Left Side */}
           <div className="space-y-6 md:py-10">
-            <div className="inline-flex items-center px-4 py-2 bg-white rounded-full shadow-md">
-              <FaChair className="mr-2 text-green-600" />
-              <span className="text-sm font-semibold">
+            <div className="inline-flex items-center px-3 py-1 bg-white rounded-full shadow-md sm:px-4 sm:py-2">
+              <FaChair className="mr-2 w-4 h-4 text-green-600 sm:h-5 sm:w-5" />
+              <span className="text-xs font-semibold sm:text-sm">
                 The Best Online Furniture Store
               </span>
             </div>
@@ -33,11 +33,11 @@ const Hero = () => {
               eiusmod tempor incididunt ut labore et dolore.
             </p>
             <div className="flex items-center space-x-4">
-              <button className="flex items-center px-6 py-3 space-x-2 text-white bg-green-600 rounded-full transition duration-300 hover:bg-green-700">
+              <button className="flex items-center px-4 py-2 space-x-2 text-sm text-white bg-green-600 rounded-full transition duration-300 sm:px-5 sm:py-2 sm:text-base hover:bg-green-700">
                 <span>Shop Now</span>
-                <FaArrowRight />
+                <FaArrowRight className="w-3 h-3 sm:w-4 sm:h-4"/>
               </button>
-              <button className="font-semibold text-gray-800 hover:underline">
+              <button className="text-sm font-semibold text-gray-800 sm:text-base hover:underline">
                 View All Products
               </button>
             </div>
@@ -179,8 +179,8 @@ const Hero = () => {
             </Swiper>
 
             {/* Navigation Buttons */}
-            <div className="flex justify-start items-center mt-2 space-x-3">
-              <button className="p-2 text-black rounded-full bg-green-600/20 swiper-button-prev-custom disabled:opacity-50">
+            <div className="flex justify-start items-center mt-4 space-x-3">
+              <button className="p-2 text-white bg-green-600 rounded-full swiper-button-prev-custom disabled:opacity-50">
                 <MdArrowBack size={20} />
               </button>
               <button className="p-2 text-white bg-yellow-400 rounded-full swiper-button-next-custom disabled:opacity-50">

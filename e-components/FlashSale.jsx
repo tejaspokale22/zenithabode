@@ -41,21 +41,21 @@ const Countdown = ({ targetDate }) => {
     timerComponents.push(
       <div key={interval} className="flex items-center">
         <div className="text-center">
-          <span className="text-5xl font-bold text-gray-800">
+          <span className="text-3xl font-bold text-gray-800 sm:text-4xl md:text-5xl">
             {String(timeLeft[interval]).padStart(2, "0")}
           </span>
-          <span className="block mt-1 text-sm text-gray-500 uppercase">
+          <span className="block mt-1 text-xs text-gray-500 uppercase sm:text-sm">
             {interval}
           </span>
         </div>
         {index < Object.keys(timeLeft).length - 1 && (
-          <span className="mx-4 text-5xl font-light text-gray-400">:</span>
+          <span className="mx-2 text-3xl font-light text-gray-400 sm:mx-4 sm:text-5xl">:</span>
         )}
       </div>
     );
   });
 
-  return <div className="flex justify-center my-8">{timerComponents}</div>;
+  return <div className="flex flex-wrap justify-center my-8">{timerComponents}</div>;
 };
 
 const FlashSale = () => {
@@ -63,10 +63,10 @@ const FlashSale = () => {
   saleEndDate.setDate(saleEndDate.getDate() + 4);
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-16 bg-white sm:py-24">
       <div className="container px-4 mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-12 items-center lg:grid-cols-2">
-          <div className="relative p-10 text-center bg-gray-50 rounded-3xl lg:p-16">
+          <div className="relative p-8 text-center rounded-3xl bg-gray-50/70 sm:p-10 lg:p-16">
             <div className="absolute top-6 left-6 text-gray-300 opacity-30">
               ...
             </div>
@@ -74,21 +74,21 @@ const FlashSale = () => {
               ...
             </div>
 
-            <h2 className="mb-4 text-5xl font-bold">
+            <h2 className="mb-4 text-4xl font-bold sm:text-5xl">
               Flash <span className="text-green-700">Sale!</span>
             </h2>
-            <p className="mb-8 text-lg text-gray-500">
+            <p className="mb-8 text-base text-gray-500 sm:text-lg">
               Get 25% off - Limited Time Offer!
             </p>
 
             <Countdown targetDate={saleEndDate} />
 
-            <button className="flex justify-center items-center px-8 py-4 mx-auto text-lg font-semibold text-white bg-green-700 rounded-full transition-colors hover:bg-green-800">
+            <button className="flex justify-center items-center px-6 py-3 mx-auto text-base font-semibold text-white bg-green-700 rounded-full transition-colors sm:px-8 sm:py-4 sm:text-lg hover:bg-green-800">
               Shop Now <FaArrowRight className="ml-3" />
             </button>
           </div>
-          <div className="hidden justify-center items-center space-x-6 h-full lg:flex">
-            <div className="overflow-hidden relative w-1/2 h-full rounded-3xl transform -translate-y-6">
+          <div className="flex flex-col justify-center items-center space-y-6 h-full sm:flex-row sm:space-y-0 sm:space-x-6 lg:flex">
+            <div className="overflow-hidden relative w-full h-64 rounded-3xl sm:w-1/2 sm:h-full sm:transform sm:-translate-y-6">
               <Image
                 src="/image/kitchen1.jpg"
                 alt="Kitchen Interior"
@@ -96,7 +96,7 @@ const FlashSale = () => {
                 className="object-cover"
               />
             </div>
-            <div className="overflow-hidden relative w-1/2 h-full rounded-3xl transform translate-y-6">
+            <div className="overflow-hidden relative w-full h-64 rounded-3xl sm:w-1/2 sm:h-full sm:transform sm:translate-y-6">
               <Image
                 src="/image/living.jpg"
                 alt="Living Room Interior"
