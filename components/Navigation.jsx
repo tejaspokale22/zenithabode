@@ -5,9 +5,9 @@ import { TbArrowUpRight, TbMenu2, TbX } from "react-icons/tb";
 
 const nav = [
     { href: '/', label: 'HOME' },
-    { href: '/projects', label: 'PROJECTS' },
-    { href: '/about', label: 'ABOUT US' },
-    { href: '/gallery', label: 'GALLERY' },
+    // { href: '/projects', label: 'PROJECTS' },
+    { href: '/about', label: 'ABOUT' },
+    // { href: '/gallery', label: 'GALLERY' },
 ];
 
 export default function Navigation({ isMenuOpen, setMenuOpen }) {
@@ -29,7 +29,7 @@ export default function Navigation({ isMenuOpen, setMenuOpen }) {
             </button>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-x-6">
+            <nav className="hidden gap-x-6 items-center lg:flex">
                 {nav.map(({ href, label }) => (
                     <Link key={href} href={href} className={
                         pathname === href ? 'text-black font-semibold' : 'text-gray-600 hover:text-black'
@@ -42,7 +42,7 @@ export default function Navigation({ isMenuOpen, setMenuOpen }) {
             {/* Mobile Navigation */}
             {isMenuOpen && (
                 <div className="fixed inset-0 z-40 bg-white lg:hidden">
-                    <nav className="flex flex-col items-center justify-center h-full gap-y-6">
+                    <nav className="flex flex-col gap-y-6 justify-center items-center h-full">
                         {nav.map(({ href, label }) => (
                             <Link key={href} href={href} className={
                                 `text-xl ${pathname === href ? 'text-black font-semibold' : 'text-gray-600'}`

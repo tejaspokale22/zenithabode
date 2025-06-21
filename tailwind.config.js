@@ -7,7 +7,11 @@ module.exports = {
     "./e-components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        rubik: ["Rubik", "sans-serif"],
+      },
+    },
     container: {
       center: true,
       padding: {

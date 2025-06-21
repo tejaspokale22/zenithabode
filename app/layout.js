@@ -1,11 +1,5 @@
-"use client";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import { Inter } from "next/font/google";
-import { usePathname } from "next/navigation";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import AppLayout from "@/components/AppLayout";
 
 export const metadata = {
   title: "An aesthetic room is given harmony",
@@ -13,15 +7,10 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const pathname = usePathname();
-  const isEHomeRoute = pathname === "/e-home";
-
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {!isEHomeRoute && <Header />}
-        {children}
-        {!isEHomeRoute && <Footer />}
+      <body className="vsc-initialized">
+        <AppLayout>{children}</AppLayout>
       </body>
     </html>
   );

@@ -8,7 +8,7 @@ export default function AnimatedBanner() {
   const phrase = 'MODERN' + '\u00A0'.repeat(3) + 'DECORATION' + '\u00A0'.repeat(3) + 'INTERIOR DESIGN' + '\u00A0'.repeat(3);
 
   return (
-    <div className="relative w-full h-[50vh] overflow-hidden">
+    <div className="relative w-full h-[40vh] overflow-hidden">
       {/* Background Image */}
       <Image
         src={assets.animatedBannerBg}

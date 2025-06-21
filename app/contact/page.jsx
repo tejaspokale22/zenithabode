@@ -1,10 +1,9 @@
-export default function Contact() {
+import Contact from "@/components/Contact";
+
+export default function ContactPage() {
     return (
         <div>
-            <h1>Contact Us</h1>
-            <p>Phone: 555-555-5555</p>
-            <p>Email:
-            </p>
+            <Contact />
         </div>
     );
 }
