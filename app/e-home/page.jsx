@@ -1,5 +1,4 @@
 import EHeader from '@/e-components/Header';
-import Offer from '@/e-components/Offer'
 import Hero from '@/e-components/Hero';
 import Services from '@/e-components/Services';
 import EFooter from '@/e-components/Footer';
@@ -11,11 +10,12 @@ import Testimonial from '@/e-components/Testimonial';
 import Deals from '@/e-components/Deals';
 import FlashSale from '@/e-components/FlashSale';
 import Products from '@/e-components/Products';
+import Offer from '@/e-components/Offer';
 
 const EHomePage = () => {
   return (
     <div className="min-h-screen">
-      <Offer /> 
+      <Offer/>
       <EHeader />
       <Hero />
       <Services />

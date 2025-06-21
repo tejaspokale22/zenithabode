@@ -123,7 +123,7 @@ const Products = () => {
     };
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-12 bg-white">
       <div className="container px-4 mx-auto max-w-7xl text-center">
         <div className="mb-12">
             <div className="flex justify-center items-center mb-2">

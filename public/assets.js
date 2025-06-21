@@ -7,6 +7,9 @@ const assets = {
   wcu_2: "/assets/wcu_2.png",
   commercialFurniture: "/assets/commmercialFurniture.png",
   homeLighting: "/assets/homeLigthing.png",
+  chair: "/assets/chair.webp",
+  sofa: "/assets/sofa.jpg",
+  lamp: "/assets/lighting.jpeg",
 };
 
 export default assets;

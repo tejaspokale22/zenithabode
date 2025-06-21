@@ -3,22 +3,23 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaYoutube } from 're
 
 const Offer = () => {
   return (
-    <div className="bg-black text-white py-4 px-6 min-h-[60px] w-full relative">
-      <div className="container flex justify-between items-center mx-auto max-w-7xl">
-        <div>
-          <p className="text-sm font-medium">Call Us : +123-456-7890</p>
-        </div>
-        <div>
-          <p className="text-sm">
-            Sign up and GET 25% OFF for your first order. <a href="#" className="font-semibold text-yellow-400 underline hover:text-yellow-300">Sign up now</a>
-          </p>
-        </div>
-        <div className="flex items-center space-x-3">
-            <a href="#" className="text-yellow-400 transition-colors hover:text-yellow-300"><FaFacebookF /></a>
-            <a href="#" className="text-yellow-400 transition-colors hover:text-yellow-300"><FaTwitter /></a>
-            <a href="#" className="text-yellow-400 transition-colors hover:text-yellow-300"><FaInstagram /></a>
-            <a href="#" className="text-yellow-400 transition-colors hover:text-yellow-300"><FaLinkedinIn /></a>
-            <a href="#" className="text-yellow-400 transition-colors hover:text-yellow-300"><FaYoutube /></a>
+    <div className="fixed top-0 right-0 left-0 z-50 px-4 py-2 w-full text-white bg-green-700 sm:px-6">
+      <div className="container flex flex-col gap-2 justify-center items-center mx-auto max-w-7xl text-sm md:flex-row md:justify-between">
+        <p className="font-medium">
+          Call Us : +123-456-7890
+        </p>
+        <p className="text-center">
+          Sign up and GET 25% OFF for your first order.{' '}
+          <a href="#" className="font-semibold text-yellow-400 underline hover:text-yellow-300">
+            Sign up now
+          </a>
+        </p>
+        <div className="hidden items-center space-x-4 md:flex">
+            <a href="#" aria-label="Facebook" className="p-1 text-gray-800 bg-yellow-300 rounded-full transition-colors"><FaFacebookF /></a>
+            <a href="#" aria-label="Twitter" className="p-1 text-gray-800 bg-yellow-300 rounded-full transition-colors"><FaTwitter /></a>
+            <a href="#" aria-label="Instagram" className="p-1 text-gray-800 bg-yellow-300 rounded-full transition-colors"><FaInstagram /></a>
+            <a href="#" aria-label="LinkedIn" className="p-1 text-gray-800 bg-yellow-300 rounded-full transition-colors"><FaLinkedinIn /></a>
+              <a href="#" aria-label="YouTube" className="p-1 text-gray-800 bg-yellow-300 rounded-full transition-colors"><FaYoutube /></a>
         </div>
       </div>
     </div>

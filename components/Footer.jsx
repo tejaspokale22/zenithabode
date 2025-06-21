@@ -12,7 +12,7 @@ import assets from "../public/assets.js";
 export default function Footer() {
   return (
     <div>
-      <footer className="overflow-hidden relative py-12 text-gray-800 sm:py-16 md:py-20 bg-zinc-50">
+      <footer className="overflow-hidden relative py-12 text-gray-800 sm:py-16 md:py-20 bg-gradient-to-b from-zinc-50 to-zinc-100">
         {/* Decorative Images - Watermark Style */}
         <Image
           src={assets.f1}

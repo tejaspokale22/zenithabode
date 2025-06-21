@@ -45,10 +45,10 @@ const EFooter = () => {
   ];
 
   return (
-    <footer className="text-white bg-gradient-to-b from-[#022c22] to-[#034a38]">
+    <footer className="text-white bg-green-800">
       {/* Main Footer Content */}
       <div className="px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-24 lg:grid-cols-3">
           
           {/* Logo and Description */}
           <div className="lg:col-span-1">
@@ -123,7 +123,7 @@ const EFooter = () => {
 
       {/* Bottom Bar */}
       <div className="bg-[#b58a21]">
-        <div className="px-4 py-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="px-4 py-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex flex-col justify-between items-center space-y-2 sm:flex-row sm:space-y-0">
             
             {/* Copyright */}
