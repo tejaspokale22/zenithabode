@@ -7,7 +7,7 @@ import {
   FaYoutube,
   FaTwitter,
 } from "react-icons/fa";
-import assets from "@/public/assets";
+import assets from "../public/assets.js";
 
 export default function Footer() {
   return (

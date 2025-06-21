@@ -37,7 +37,7 @@ const Hero = () => {
           />
         ))}
         {/* Navigation Arrows */}
-        <div className="flex absolute right-8 bottom-8 z-10 gap-4">
+        <div className="flex absolute right-8 bottom-8 gap-4">
           <button
             onClick={prevSlide}
             className="flex justify-center items-center w-12 h-12 text-2xl rounded-full shadow transition bg-white/80 hover:bg-white"

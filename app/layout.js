@@ -1,6 +1,8 @@
+"use client";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Inter } from "next/font/google";
+import { usePathname } from "next/navigation";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -11,12 +13,15 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
+  const isEHomeRoute = pathname === "/e-home";
+
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Header />
+        {!isEHomeRoute && <Header />}
         {children}
-        <Footer />
+        {!isEHomeRoute && <Footer />}
       </body>
     </html>
   );

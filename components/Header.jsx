@@ -1,5 +1,5 @@
 import Image from "next/image";
-import assets from "@/public/assets";
+import assets from "../public/assets.js";
 import Navigation from "./Navigation";
 
 export default function Header() {
