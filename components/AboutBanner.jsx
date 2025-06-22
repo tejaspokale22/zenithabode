@@ -16,8 +16,11 @@ export default function AboutBanner() {
           />
           {/* Circular Text */}
           <div className="pointer-events-none">
-            <div className="absolute" style={{right: '-26px', bottom: '22px'}}>
-              <svg className="animate-spin" width="60" height="60" viewBox="0 0 120 120">
+            <div className="absolute bottom-4 -right-7 sm:bottom-5 sm:-right-8">
+              <svg
+                className="w-14 h-14 animate-spin sm:w-16 sm:h-16"
+                viewBox="0 0 120 120"
+              >
                 <defs>
                   <path
                     id="circlePath"

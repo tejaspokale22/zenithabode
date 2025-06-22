@@ -28,7 +28,7 @@ const blogPosts = [
 
 const Blog = () => {
   return (
-    <section className="py-12 bg-white md:py-20">
+    <section className="py-8 bg-white md:py-14">
       <div className="px-4 mx-auto max-w-7xl">
         <div className="mb-12 text-center">
           <div className="inline-block p-3 mb-4 bg-amber-50 rounded-2xl">
@@ -50,7 +50,7 @@ const Blog = () => {
           {blogPosts.map((post, index) => (
             <div key={index} className="group">
               <div
-                className={`relative w-full overflow-hidden mb-4
+                className={`relative w-full overflow-hidden mb-4 transition-transform duration-500 ease-in-out group-hover:scale-95
                 ${
                   index === 1
                     ? "h-[320px] md:h-[420px]"
@@ -63,7 +63,7 @@ const Blog = () => {
                     alt={post.title}
                     layout="fill"
                     objectFit="cover"
-                    className="transition-transform duration-300"
+                    className="transition-transform duration-500 ease-in-out group-hover:-rotate-2"
                   />
                 </Link>
               </div>
@@ -76,7 +76,7 @@ const Blog = () => {
                   <span className="mx-2">•</span>
                   <span>{post.date}</span>
                 </div>
-                <h4 className="text-lg font-bold text-[#292f36] leading-tight transition-colors group-hover:text-amber-600 md:text-xl">
+                <h4 className="text-lg font-bold text-[#292f36] leading-tight transition-colors md:text-xl">
                   <Link href={post.link}>{post.title}</Link>
                 </h4>
               </div>
