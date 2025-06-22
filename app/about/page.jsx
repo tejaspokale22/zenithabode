@@ -1,10 +1,19 @@
+"use client"
 import Image from "next/image";
 import { TbArrowUpRight } from "react-icons/tb";
 import Team from "@/components/Team";
+import Projects from "@/components/Projects";
+import Blog from "@/components/Blog";
+import AboutUsBanner from "@/components/AboutUsBanner";
 
 export default function About() {
   return (
-    <Team />
+    <>
+      <AboutUsBanner/>
+      <Projects />
+      <Team />
+      <Blog/>
+    </>
   );
 }
 
