@@ -1,56 +1,106 @@
-'use client'
-import React, { useState } from 'react';
+"use client";
+import React, { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
-const sliderImages = [
-  '/image/swiper1.jpg',
-  '/image/swiper2.jpg',
-  '/image/swiper3.jpg',
-  '/image/swiper4.jpg',
-  '/image/swiper5.jpg',
-  '/image/swiper6.jpg',
-  '/image/swiper7.jpg',
-  '/image/swiper8.jpg',
+const sliderData = [
+  {
+    image: "/image/swiper1.jpg",
+    subtitle: "Innovate Your Home",
+    title: "Planning, Design, Interiors, Urban Development",
+  },
+  {
+    image: "/image/swiper2.jpg",
+    subtitle: "Cutting-Edge Solutions",
+    title: "Modern Architecture and Sustainable Living Spaces",
+  },
+  {
+    image: "/image/swiper3.jpg",
+    subtitle: "Elegant Environments",
+    title: "Luxury Interiors and Bespoke Furniture Design",
+  },
+  {
+    image: "/image/swiper3.jpg",
+    subtitle: "Elegant Environments",
+    title: "Luxury Interiors and Bespoke Furniture Design",
+  },
 ];
 
 const Hero = () => {
   const [current, setCurrent] = useState(0);
-  const length = sliderImages.length;
+  const length = sliderData.length;
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrent(current === length - 1 ? 0 : current + 1);
-  };
+  }, [current, length]);
 
   const prevSlide = () => {
     setCurrent(current === 0 ? length - 1 : current - 1);
   };
 
+  useEffect(() => {
+    const slideInterval = setInterval(nextSlide, 7000);
+    return () => clearInterval(slideInterval);
+  }, [nextSlide]);
+
   return (
-    <div className="px-4 mx-auto w-full max-w-full md:px-12">
-      <section className="relative w-full h-[80vh] flex items-center justify-center overflow-hidden rounded-2xl mt-4 py-8 md:py-12">
-        {/* Slider Images */}
-        {sliderImages.map((img, idx) => (
-          <img
-            key={img}
-            src={img}
-            alt={`slide-${idx}`}
-            className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-700 ${idx === current ? 'opacity-100 z-0' : 'opacity-0 z-0'}`}
-          />
+    <div className="p-2 md:p-4">
+      <section className="relative w-full h-[88vh] overflow-hidden rounded-2xl shadow-lg border">
+        {sliderData.map((slide, idx) => (
+          <div
+            key={idx}
+            className={`absolute top-0 left-0 w-full h-full transition-transform duration-1000 ease-in-out ${
+              idx === current ? "z-10" : "z-0"
+            }`}
+            style={{ transform: `translateX(${(idx - current) * 100}%)` }}
+          >
+            <Image
+              src={slide.image}
+              alt={slide.title}
+              layout="fill"
+              objectFit="cover"
+              priority={idx === 0}
+            />
+          </div>
         ))}
-        {/* Navigation Arrows */}
-        <div className="flex absolute right-8 bottom-8 gap-4">
+
+        <div className="flex relative z-20 flex-col justify-center items-start p-8 h-full md:p-16 lg:p-24">
+          <div className="overflow-hidden relative p-8 max-w-md text-white rounded-xl shadow-2xl backdrop-blur-sm bg-black/70 md:p-10 lg:max-w-lg">
+            <div
+              className="absolute inset-0 z-0 opacity-10"
+              style={{
+                backgroundImage: "url('/assets/pyramid.png')",
+                backgroundSize: "cover",
+              }}
+            ></div>
+            <div className="relative z-10">
+              <p className="text-xs tracking-widest text-gray-300 uppercase md:text-sm">
+                {sliderData[current].subtitle}
+              </p>
+              <h1 className="my-4 text-3xl font-bold leading-tight md:text-4xl">
+                {sliderData[current].title}
+              </h1>
+              <button className="bg-[#c7a760] text-black font-bold py-3 px-6 rounded-md mt-4 uppercase text-xs tracking-wider hover:bg-opacity-90 transition-all duration-300 transform">
+                READ MORE
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex absolute right-4 bottom-4 z-20 items-center md:right-0 md:bottom-0 bg-white/90">
           <button
             onClick={prevSlide}
-            className="flex justify-center items-center w-12 h-12 text-2xl rounded-full shadow transition bg-white/80 hover:bg-white"
+            className="p-5 text-gray-800 transition hover:bg-gray-200"
             aria-label="Previous Slide"
           >
-            &#8592;
+            <ArrowLeft size={28} />
           </button>
           <button
             onClick={nextSlide}
-            className="flex justify-center items-center w-12 h-12 text-2xl rounded-full shadow transition bg-white/80 hover:bg-white"
+            className="p-5 text-gray-800 transition hover:bg-gray-200"
             aria-label="Next Slide"
           >
-            &#8594;
+            <ArrowRight size={28} />
           </button>
         </div>
       </section>

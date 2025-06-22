@@ -8,8 +8,8 @@ export default function Header() {
     const [isMenuOpen, setMenuOpen] = useState(false);
 
     return (
-        <div className="sticky inset-x-0 top-0 z-20 bg-opacity-60 backdrop-blur-lg bg-zinc-100">
-            <div className="container flex justify-between items-center py-4 px-4 sm:px-6 md:px-8">
+        <div className="sticky inset-x-0 top-0 z-30 bg-opacity-60 backdrop-blur-lg bg-zinc-100">
+            <div className="container flex justify-between items-center px-4 py-4 sm:px-6 md:px-8">
 
                 <div className="w-28 h-auto sm:w-36">
                     <Image 
