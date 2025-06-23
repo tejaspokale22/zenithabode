@@ -5,13 +5,13 @@ export default function AboutBanner() {
     <section className="py-8 w-full bg-white md:py-12">
       <div className="grid grid-cols-1 gap-0 items-stretch px-4 mx-auto max-w-7xl lg:grid-cols-2 lg:gap-x-12 sm:px-6">
         {/* Left Column: Office Image with Circular Text */}
-        <div className="relative flex flex-col h-full min-h-[300px]">
+        <div className="relative flex flex-col h-full min-h-[180px]">
           <Image
             src="/image/badroom.jpg"
             alt="Office Room"
             width={800}
             height={900}
-            className="object-cover w-full h-[220px] sm:h-[320px] md:h-[400px] lg:h-full min-h-[180px] max-h-[700px] rounded-xl"
+            className="object-cover w-full h-[140px] xs:h-[180px] sm:h-[240px] md:h-[320px] lg:h-full min-h-[120px] max-h-[400px] md:max-h-[500px] lg:max-h-[700px] rounded-xl transition-all duration-300"
             priority
           />
         </div>
@@ -41,13 +41,13 @@ export default function AboutBanner() {
             </ul>
           </div>
           {/* Bottom: Living Room Image */}
-          <div className="w-full">
+          <div className="mt-4 w-full md:mt-0">
             <Image
               src="/image/living.jpg"
               alt="Living Room"
               width={800}
               height={350}
-              className="rounded-xl object-cover w-full h-[140px] sm:h-[200px] md:h-[250px] lg:h-[350px]"
+              className="rounded-xl object-cover w-full h-[100px] xs:h-[140px] sm:h-[180px] md:h-[220px] lg:h-[350px] transition-all duration-300"
             />
           </div>
         </div>

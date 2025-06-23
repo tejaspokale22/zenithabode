@@ -25,18 +25,18 @@ export default function CounterBanner() {
   return (
     <div
       ref={ref}
-      className="flex flex-wrap gap-12 justify-center items-center py-16 w-full bg-white"
+      className="flex flex-wrap gap-6 justify-center items-center py-8 w-full bg-white sm:gap-10 md:gap-12 sm:py-12 md:py-16"
     >
       {stats.map(({ value, suffix, label, highlight }, index) => (
         <div
           key={index}
-          className="flex flex-col items-center px-6 text-center"
+          className="flex flex-col items-center px-2 text-center sm:px-4 md:px-6"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={hasAnimated ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className={`text-8xl font-bold ${
+            className={`font-bold text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl ${
               highlight ? 'text-[#b19160]' : 'text-[#f1ebdf]'
             }`}
           >
@@ -54,11 +54,11 @@ export default function CounterBanner() {
             ) : (
               '0'
             )}
-            {suffix}
+            <span className="text-2xl align-middle xs:text-3xl sm:text-4xl md:text-5xl">{suffix}</span>
           </motion.div>
-          <p className="mt-2 text-sm font-semibold tracking-wide text-black uppercase">
+          <p className="mt-2 text-xs font-semibold tracking-wide text-black uppercase xs:text-sm sm:text-base md:text-lg">
             {label}
-            <span className="block h-[1px] w-10 bg-[#b19160] mt-2 mx-auto" />
+            <span className="block h-[1px] w-8 sm:w-10 bg-[#b19160] mt-2 mx-auto" />
           </p>
         </div>
       ))}
