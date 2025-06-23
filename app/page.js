@@ -1,5 +1,4 @@
 import CatalogSwiperSection from "@/components/CatalogSwiperCection";
-import ContactSection from "@/components/ContactSection";
 import AnimatedBanner from "@/components/AnimatedBanner";
 import CounterBanner from "@/components/CounterBanner";
 import Hero from "@/components/Hero";
@@ -19,7 +18,6 @@ export default function Home() {
       <AnimatedBanner />
       <CatalogSwiperSection />
       <Blog />
-      <ContactSection />
     </>
   );
 }

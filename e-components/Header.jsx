@@ -15,36 +15,34 @@ const Header = () => {
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Logo */}
-          <Link href="/">
-            <a className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
               <div className="flex justify-center items-center w-8 h-8 text-xl font-bold text-yellow-400 bg-green-700 rounded-full sm:w-10 sm:h-10 sm:text-2xl">
                 F
               </div>
               <span className="text-xl font-semibold text-gray-900 sm:text-2xl">
                 Furniture.
               </span>
-            </a>
           </Link>
 
           {/* Navigation Links */}
           <nav className="hidden space-x-6 text-sm font-medium text-gray-800 md:flex md:gap-5">
-            <Link href="/">
-              <a className="hover:text-green-700">Home</a>
+            <Link href="/" className="hover:text-green-700">
+              Home
             </Link>
-            <Link href="/shop">
-              <a className="hover:text-green-700">Shop</a>
+            <Link href="/" className="hover:text-green-700">
+              Shop
             </Link>
-            <Link href="/categories">
-              <a className="hover:text-green-700">Categories</a>
+            <Link href="/" className="hover:text-green-700">
+              Categories
             </Link>
-            <Link href="/about">
-              <a className="hover:text-green-700">About Us</a>
+            <Link href="/" className="hover:text-green-700">
+              About Us
             </Link>
-            <Link href="/contact">
-              <a className="hover:text-green-700">Contact Us</a>
+            <Link href="/" className="hover:text-green-700">
+              Contact Us
             </Link>
-            <Link href="/blog">
-              <a className="hover:text-green-700">Blog</a>
+            <Link href="/" className="hover:text-green-700">
+              Blog
             </Link>
           </nav>
 
@@ -62,23 +60,23 @@ const Header = () => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <nav className="py-4 md:hidden">
-            <Link href="/">
-              <a className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>Home</a>
+            <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+              Home
             </Link>
-            <Link href="/shop">
-              <a className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>Shop</a>
+            <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+              Shop
             </Link>
-            <Link href="/categories">
-              <a className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>Categories</a>
+            <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+              Categories
             </Link>
-            <Link href="/about">
-              <a className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>About Us</a>
+            <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+              About Us
             </Link>
-            <Link href="/contact">
-              <a className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>Contact Us</a>
+            <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+              Contact Us
             </Link>
-            <Link href="/blog">
-              <a className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>Blog</a>
+            <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+              Blog
             </Link>
           </nav>
         )}
