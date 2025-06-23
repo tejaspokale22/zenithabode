@@ -22,7 +22,7 @@ export default function AboutBanner() {
           <div className="flex relative z-10 flex-col flex-1 justify-start pt-2 pb-4 bg-white md:pb-8">
             <span className="text-xs tracking-widest text-[#bfa46f] font-semibold">ABOUT US</span>
             <h2 className="mt-2 text-2xl font-extrabold leading-tight text-gray-900 sm:text-3xl md:text-4xl lg:text-5xl">
-              Have A Project? Let's <br /> Discuss It
+              Have A Project? Let&#39;s <br /> Discuss It
             </h2>
             <p className="mt-4 max-w-lg text-xs text-gray-500 sm:text-sm">
               Fusce accumsan tincidunt erat et convallis risus ullamcorper eu vehicula massa a massa cursus
