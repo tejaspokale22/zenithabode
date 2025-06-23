@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import assets from "@/public/assets";
 
 const projects = [
   {
@@ -28,7 +29,7 @@ const LatestProject = () => {
           <Link href="/" title="" className="inline-block">
             <Image
               className="mx-auto w-auto h-8"
-              src="/assets/logo.png"
+              src={assets.logo}
               alt="logo"
               width={100}
               height={32}
@@ -43,7 +44,7 @@ const LatestProject = () => {
           <div className="absolute inset-0">
             <Image
               className="object-cover w-full h-full"
-              src="/image/backgroundproject.jpg"
+              src={assets.gallery4}
               alt="background project"
               width={1920}
               height={1080}

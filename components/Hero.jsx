@@ -2,27 +2,28 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import assets from "@/public/assets.js";
 
 const sliderData = [
   {
-    image: "/image/swiper1.jpg",
-    subtitle: "Innovate Your Home",
-    title: "Planning, Design, Interiors, Urban Development",
+    image: assets.gallery7,
+    subtitle: "Comfort and Style",
+    title: "Luxurious Beds for Your Dream Bedroom",
   },
   {
-    image: "/image/swiper2.jpg",
-    subtitle: "Cutting-Edge Solutions",
-    title: "Modern Architecture and Sustainable Living Spaces",
+    image: assets.gallery1123,
+    subtitle: "Modern Seating",
+    title: "Discover Our Collection of Stylish Chairs",
   },
   {
-    image: "/image/swiper3.jpg",
-    subtitle: "Elegant Environments",
-    title: "Luxury Interiors and Bespoke Furniture Design",
+    image: assets.gallery10,
+    subtitle: "Restful Nights",
+    title: "Elegant Beds for a Peaceful Sleep",
   },
   {
-    image: "/image/swiper3.jpg",
-    subtitle: "Elegant Environments",
-    title: "Luxury Interiors and Bespoke Furniture Design",
+    image: assets.gallery15,
+    subtitle: "Statement Pieces",
+    title: "Chairs That Make a Statement",
   },
 ];
 

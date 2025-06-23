@@ -4,21 +4,21 @@ import assets from "@/public/assets.js";
 
 const blogPosts = [
   {
-    image: "/image/gallery8.jpg",
+    image: assets.gallery8,
     category: "FURNITURE",
     date: "May 25, 2024",
     title: "Detailed Accents on Custom of Built Office Design",
     link: "/blog/post-1",
   },
   {
-    image: "/image/swiper2.jpg",
+    image: assets.swiper2,
     category: "WOOD CUTTING",
     date: "May 28, 2024",
     title: "We specialize in restoring antique Interior design",
     link: "/blog/post-2",
   },
   {
-    image: "/image/gallery8.jpg",
+    image: assets.gallery7,
     category: "CRAFTING",
     date: "May 31, 2024",
     title: "We creating in the Unique of interior showcasing",

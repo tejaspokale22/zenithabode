@@ -14,27 +14,6 @@ export default function AboutBanner() {
             className="object-cover w-full h-[220px] sm:h-[320px] md:h-[400px] lg:h-full min-h-[180px] max-h-[700px] rounded-xl"
             priority
           />
-          {/* Circular Text */}
-          <div className="pointer-events-none">
-            <div className="absolute bottom-4 -right-7 sm:bottom-5 sm:-right-8">
-              <svg
-                className="w-14 h-14 animate-spin sm:w-16 sm:h-16"
-                viewBox="0 0 120 120"
-              >
-                <defs>
-                  <path
-                    id="circlePath"
-                    d="M60,10 a50,50 0 1,1 0,100 a50,50 0 1,1 0,-100"
-                  />
-                </defs>
-                <text fontSize="13" fontFamily="sans-serif" fill="#222">
-                  <textPath xlinkHref="#circlePath">
-                    GET IN TOUCH · GET IN TOUCH · GET IN TOUCH ·
-                  </textPath>
-                </text>
-              </svg>
-            </div>
-          </div>
         </div>
 
         {/* Right Column: Top (Text) and Bottom (Living Room Image) */}
