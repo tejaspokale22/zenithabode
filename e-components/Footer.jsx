@@ -70,10 +70,11 @@ const EFooter = () => {
                 <Link
                   key={index}
                   href={social.href}
-                  className="flex justify-center items-center w-8 h-8 rounded-full border border-white transition-colors duration-200 hover:bg-white hover:text-black"
                   aria-label={social.label}
                 >
-                  <social.icon className="w-4 h-4" />
+                  <a className="flex justify-center items-center w-8 h-8 rounded-full border border-white transition-colors duration-200 hover:bg-white hover:text-black">
+                    <social.icon className="w-4 h-4" />
+                  </a>
                 </Link>
               ))}
             </div>
@@ -88,11 +89,10 @@ const EFooter = () => {
                 <ul className="space-y-3">
                   {section.links.map((link, linkIndex) => (
                     <li key={linkIndex}>
-                      <Link
-                        href={link.href}
-                        className="text-sm text-gray-300 transition-colors duration-200 hover:text-white"
-                      >
-                        {link.name}
+                      <Link href={link.href}>
+                        <a className="text-sm text-gray-300 transition-colors duration-200 hover:text-white">
+                          {link.name}
+                        </a>
                       </Link>
                     </li>
                   ))}
