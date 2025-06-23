@@ -4,7 +4,7 @@ import assets from '@/public/assets';
 
 const WhyChooseUs = () => {
   return (
-    <section className="overflow-hidden relative py-12 w-full bg-white md:py-20">
+    <section className="overflow-hidden relative py-8 w-full bg-white md:py-14">
       {/* Subtle background lines (left) */}
       <div className="absolute inset-0 pointer-events-none">
         <Image
@@ -30,7 +30,7 @@ const WhyChooseUs = () => {
             {/* Feature 1 */}
             <div className="flex gap-4 items-center w-full">
               <div className="flex-shrink-0">
-                <Image src={assets.commercialFurniture} alt="Commercial Furniture Icon" width={64} height={64} className="object-contain w-14 h-14" />
+                <Image src={assets.commercialFurniture} alt="Commercial Furniture Icon" width={64} height={64} className="object-contain w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14" />
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-bold leading-tight text-gray-900 sm:text-xl">Commercial</span>
@@ -40,7 +40,7 @@ const WhyChooseUs = () => {
             {/* Feature 2 */}
             <div className="flex gap-4 items-center w-full">
               <div className="flex-shrink-0">
-                <Image src={assets.homeLighting} alt="Home Lighting Icon" width={64} height={64} className="object-contain w-14 h-14" />
+                <Image src={assets.homeLighting} alt="Home Lighting Icon" width={64} height={64} className="object-contain w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14" />
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-bold leading-tight text-gray-900 sm:text-xl">Home</span>
@@ -48,19 +48,19 @@ const WhyChooseUs = () => {
               </div>
             </div>
           </div>
-          <button className="w-max bg-[#bfa46f] hover:bg-[#a88d4a] text-white font-semibold px-8 sm:px-10 py-3 rounded transition text-base shadow-md tracking-wide uppercase">
+          <button className="bg-[#bfa46f] hover:bg-[#a88d4a] text-white font-semibold px-5 py-2 sm:px-8 sm:py-3 rounded transition text-sm sm:text-base shadow-md tracking-wide uppercase mt-2 sm:mt-0">
             Read More
           </button>
         </div>
         {/* Right: Sketch and INTERIOR text */}
-        <div className="relative flex items-center justify-center w-full h-full min-h-[240px] sm:min-h-[320px]">
+        <div className="relative flex items-center justify-center w-full h-full min-h-[180px] xs:min-h-[220px] sm:min-h-[280px] md:min-h-[320px] lg:min-h-[400px]">
           {/* Architectural Sketch */}
           <Image
             src={assets.wcu_2}
             alt="Architectural Sketch"
             width={700}
             height={500}
-            className="object-contain w-full max-w-2xl h-auto rounded-xl opacity-80"
+            className="object-contain w-full h-[180px] xs:h-[200px] sm:h-[240px] md:h-[320px] lg:h-[400px] max-w-sm xs:max-w-md sm:max-w-lg md:max-w-lg lg:max-w-2xl rounded-xl opacity-80 transition-all duration-300"
             sizes="(min-width: 1024px) 700px, 100vw"
             priority
           />

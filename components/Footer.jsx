@@ -12,7 +12,7 @@ import assets from "../public/assets.js";
 export default function Footer() {
   return (
     <div>
-      <footer className="overflow-hidden relative py-12 text-gray-800 sm:py-16 md:py-20 bg-gradient-to-b from-zinc-50 to-zinc-100">
+      <footer className="overflow-hidden relative py-12 text-gray-800 bg-gradient-to-b sm:py-16 md:py-20 from-zinc-50 to-zinc-100">
         {/* Decorative Images - Watermark Style */}
         <Image
           src={assets.f1}
@@ -34,10 +34,10 @@ export default function Footer() {
         />
         <div className="container relative z-10 px-4 mx-auto sm:px-6 lg:px-8">
           {/* Top Content */}
-          <div className="flex flex-col gap-10 px-20 pb-8 md:gap-12 md:pb-12 lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex flex-col gap-10 px-0 pb-8 md:gap-12 md:pb-12 lg:flex-row lg:items-start lg:justify-between">
             {/* Logo */}
-            <div className="flex flex-col gap-4 min-w-[180px] md:min-w-[250px] items-center md:items-start lg:items-start lg:justify-start">
-              <div className="flex gap-4 justify-center items-center">
+            <div className="flex flex-col gap-4 min-w-[180px] md:min-w-[250px] items-start lg:items-start lg:justify-start">
+              <div className="flex gap-4 justify-start items-center">
                 <Image
                   src={assets.logo}
                   alt="logo"
@@ -50,9 +50,9 @@ export default function Footer() {
             </div>
 
             {/* Link Sections */}
-            <div className="flex flex-col gap-10 items-center w-full md:gap-12 lg:flex-row lg:gap-20 xl:gap-40 md:items-start lg:items-start lg:ml-auto lg:w-auto">
+            <div className="flex flex-col gap-10 items-start w-full md:gap-12 lg:flex-row lg:gap-20 xl:gap-40 md:items-start lg:items-start lg:ml-auto lg:w-auto">
               {/* Service */}
-              <div className="flex flex-col items-center w-full sm:w-auto md:items-start">
+              <div className="flex flex-col items-start w-full sm:w-auto md:items-start">
                 <h3 className="mb-4 text-lg font-bold sm:mb-6 sm:text-2xl">Services</h3>
                 <ul className="space-y-2 text-base text-gray-600 sm:space-y-4 sm:text-lg">
                   <li>
@@ -79,7 +79,7 @@ export default function Footer() {
               </div>
 
               {/* Useful Links */}
-              <div className="flex flex-col items-center w-full sm:w-auto md:items-start">
+              <div className="flex flex-col items-start w-full sm:w-auto md:items-start">
                 <h3 className="mb-4 text-lg font-bold sm:mb-6 sm:text-2xl">Useful links</h3>
                 <ul className="space-y-2 text-base text-gray-600 sm:space-y-4 sm:text-lg">
                   <li>
@@ -106,7 +106,7 @@ export default function Footer() {
               </div>
 
               {/* Follow Us */}
-              <div className="flex flex-col items-center w-full sm:w-auto md:items-start">
+              <div className="flex flex-col items-start w-full sm:w-auto md:items-start">
                 <h3 className="mb-4 text-lg font-bold sm:mb-6 sm:text-2xl">Follow Us</h3>
                 <ul className="space-y-2 text-base text-gray-600 sm:space-y-4 sm:text-lg">
                   <li className="flex gap-2 items-center hover:text-black">
@@ -150,11 +150,11 @@ export default function Footer() {
         </div>
       </footer>
       {/* Bottom Bar */}
-      <div className="flex relative z-20 flex-col gap-2 justify-between items-center px-4 py-3 text-xs text-white bg-black sm:gap-3 sm:px-6 sm:py-4 sm:text-sm lg:flex-row lg:px-20">
-        <p className="text-[10px] sm:text-xs text-center lg:text-left">
+      <div className="flex relative z-20 flex-col gap-2 justify-between items-start px-4 py-3 text-xs text-white bg-black sm:gap-3 sm:px-6 sm:py-4 sm:text-sm lg:flex-row lg:items-center lg:px-20 lg:justify-between">
+        <p className="text-[10px] sm:text-xs text-left">
           Copyright © 2024 ThemeMascot All Rights Reserved.
         </p>
-        <div className="flex gap-4 text-base text-white sm:gap-6 sm:text-sm">
+        <div className="flex gap-4 mt-2 text-base text-white sm:gap-6 sm:text-sm lg:mt-0">
           <a href="#" className="hover:text-gray-400">
             <FaTwitter />
           </a>

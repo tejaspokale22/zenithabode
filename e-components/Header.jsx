@@ -25,7 +25,7 @@ const Header = () => {
           </Link>
 
           {/* Navigation Links */}
-          <nav className="hidden space-x-6 text-sm font-medium text-gray-800 md:flex md:gap-5">
+          <nav className="hidden items-center space-x-6 text-sm font-medium text-gray-800 md:flex md:gap-5">
             <Link href="/" className="hover:text-green-700">
               Home
             </Link>
@@ -43,6 +43,12 @@ const Header = () => {
             </Link>
             <Link href="/" className="hover:text-green-700">
               Blog
+            </Link>
+            <Link
+              href="/"
+              className="px-4 py-2 ml-2 text-sm font-semibold text-white bg-black rounded-full border border-black transition-colors hover:bg-gray-800"
+            >
+              Interior
             </Link>
           </nav>
 
@@ -77,6 +83,13 @@ const Header = () => {
             </Link>
             <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
               Blog
+            </Link>
+            <Link
+              href="/"
+              className="block px-4 py-3 mt-2 w-full text-base font-semibold text-center text-white bg-black rounded-full border border-black transition-colors hover:bg-gray-800"
+              onClick={toggleMenu}
+            >
+              Interior
             </Link>
           </nav>
         )}
