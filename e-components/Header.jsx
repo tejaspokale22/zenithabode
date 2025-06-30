@@ -26,22 +26,22 @@ const Header = () => {
 
           {/* Navigation Links */}
           <nav className="hidden items-center space-x-6 text-sm font-medium text-gray-800 md:flex md:gap-5">
-            <Link href="/" className="hover:text-green-700">
+            <Link href="/e-home" className="hover:text-green-700">
               Home
             </Link>
-            <Link href="/" className="hover:text-green-700">
+            <Link href="/shop" className="hover:text-green-700">
               Shop
             </Link>
-            <Link href="/" className="hover:text-green-700">
+            <Link href="/categories" className="hover:text-green-700">
               Categories
             </Link>
-            <Link href="/" className="hover:text-green-700">
+            <Link href="/e-about" className="hover:text-green-700">
               About Us
             </Link>
-            <Link href="/" className="hover:text-green-700">
+            <Link href="/e-contact" className="hover:text-green-700">
               Contact Us
             </Link>
-            <Link href="/" className="hover:text-green-700">
+            <Link href="/blog" className="hover:text-green-700">
               Blog
             </Link>
             <Link

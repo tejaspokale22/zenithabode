@@ -6,13 +6,17 @@ import Footer from "@/components/Footer";
 
 export default function AppLayout({ children }) {
   const pathname = usePathname();
-  const isEHomeRoute = pathname === "/e-home";
+
+  // Array of routes where Header and Footer should be hidden
+  const excludedRoutes = ["/e-home", "/e-about", "/e-contact", "/shop", "/categories", "/blog"];
+
+  const isExcludedRoute = excludedRoutes.includes(pathname);
 
   return (
     <>
-      {!isEHomeRoute && <Header />}
+      {!isExcludedRoute && <Header />}
       {children}
-      {!isEHomeRoute && <Footer />}
+      {!isExcludedRoute && <Footer />}
     </>
   );
-} 
+}

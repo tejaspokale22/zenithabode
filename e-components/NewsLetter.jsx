@@ -23,7 +23,7 @@ const NewsLetter = () => {
           </p>
           <form className="flex flex-col justify-center items-center p-2 mx-auto max-w-xl bg-white rounded-full shadow-sm sm:flex-row">
             <div className="relative flex-grow w-full">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2">
+              <span className="absolute left-2 top-1/2 -translate-y-1/2">
                 <div className="flex justify-center items-center p-2 bg-green-700 rounded-full">
                   <FiMail className="w-5 h-5 text-white" />
                 </div>
@@ -36,7 +36,7 @@ const NewsLetter = () => {
             </div>
             <button
               type="submit"
-              className="px-8 py-3 mt-2 w-full font-semibold text-gray-900 bg-yellow-500 rounded-full transition-colors sm:w-auto sm:mt-0 hover:bg-yellow-600 focus:outline-none"
+              className="px-8 py-3 mt-2 w-full font-semibold text-gray-900 bg-yellow-400 rounded-full transition-colors sm:w-auto sm:mt-0 hover:bg-yellow-500 focus:outline-none"
             >
               Subscribe
             </button>
