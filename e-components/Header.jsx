@@ -54,11 +54,11 @@ const Header = () => {
 
           {/* Icons */}
           <div className="flex items-center space-x-2 text-base text-gray-800 sm:space-x-4 sm:text-lg md:gap-4">
-            <FaSearch className="cursor-pointer hover:text-green-700" />
+            {/* <FaSearch className="cursor-pointer hover:text-green-700" />
             <FaHeart className="cursor-pointer hover:text-green-700" />
             <FaShoppingCart className="cursor-pointer hover:text-green-700" />
-            <FaUser className="cursor-pointer hover:text-green-700" />
-            <button className="md:hidden" onClick={toggleMenu}>
+            <FaUser className="cursor-pointer hover:text-green-700" /> */}
+            <button className="text-xl md:hidden" onClick={toggleMenu}>
               {isMenuOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>
@@ -66,22 +66,22 @@ const Header = () => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <nav className="py-4 md:hidden">
-            <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+            <Link href="/e-home" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
               Home
             </Link>
-            <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+            <Link href="/shop" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
               Shop
             </Link>
-            <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+            <Link href="/categories" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
               Categories
             </Link>
-            <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+            <Link href="/e-about" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
               About Us
             </Link>
-            <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+            <Link href="/e-contact" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
               Contact Us
             </Link>
-            <Link href="/" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+            <Link href="/blog" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
               Blog
             </Link>
             <Link
