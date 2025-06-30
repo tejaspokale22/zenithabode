@@ -17,6 +17,12 @@ export default function RootLayout({ children }) {
           strategy="afterInteractive"
         />
         <AppLayout>{children}</AppLayout>
+
+        {/* Chatbot script added here */}
+        <Script
+          src="https://unihox-zenith-chatbot-u-rjlx6.ondigitalocean.app/static/chatbot-widget.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
