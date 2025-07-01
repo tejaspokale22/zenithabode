@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useMemo, useEffect, useRef, Suspense } from "react";
 import Image from "next/image";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useSearchParams } from 'next/navigation';
@@ -292,7 +292,9 @@ export default function ShopPage() {
     <div className="min-h-screen bg-white">
       <Offer />
       <EHeader />
-      <Shop />
+      <Suspense fallback={<Loader />}>
+        <Shop />
+      </Suspense>
       <NewsLetter />
       <EFooter />
     </div>
