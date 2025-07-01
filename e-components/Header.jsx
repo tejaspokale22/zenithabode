@@ -1,6 +1,13 @@
 "use client";
 import Link from "next/link";
-import { FaSearch, FaHeart, FaShoppingCart, FaUser, FaBars, FaTimes } from "react-icons/fa";
+import {
+  FaSearch,
+  FaHeart,
+  FaShoppingCart,
+  FaUser,
+  FaBars,
+  FaTimes,
+} from "react-icons/fa";
 import { useState } from "react";
 
 const Header = () => {
@@ -12,16 +19,16 @@ const Header = () => {
 
   return (
     <header className="sticky top-14 z-40 w-full bg-gray-100 md:top-10 md:py-1">
-      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div className="px-4 mx-auto max-w-7xl">
         <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-              <div className="flex justify-center items-center w-8 h-8 text-xl font-bold text-yellow-400 bg-green-700 rounded-full sm:w-10 sm:h-10 sm:text-2xl">
-                F
-              </div>
-              <span className="text-xl font-semibold text-gray-900 sm:text-2xl">
-                Furniture.
-              </span>
+            <div className="flex justify-center items-center w-8 h-8 text-xl font-bold text-yellow-400 bg-green-700 rounded-full sm:w-10 sm:h-10 sm:text-2xl">
+              F
+            </div>
+            <span className="text-xl font-semibold text-gray-900 sm:text-2xl">
+              Furniture.
+            </span>
           </Link>
 
           {/* Navigation Links */}
@@ -44,16 +51,16 @@ const Header = () => {
             <Link href="/blog" className="hover:text-green-700">
               Blog
             </Link>
+          </nav>
+
+          {/* Icons */}
+          <div className="flex items-center space-x-2 text-base text-gray-800 sm:space-x-4 sm:text-lg md:gap-4">
             <Link
               href="/"
               className="px-4 py-2 ml-2 text-sm font-semibold text-white bg-black rounded-full border border-black transition-colors hover:bg-gray-800"
             >
               Interior
             </Link>
-          </nav>
-
-          {/* Icons */}
-          <div className="flex items-center space-x-2 text-base text-gray-800 sm:space-x-4 sm:text-lg md:gap-4">
             {/* <FaSearch className="cursor-pointer hover:text-green-700" />
             <FaHeart className="cursor-pointer hover:text-green-700" />
             <FaShoppingCart className="cursor-pointer hover:text-green-700" />
@@ -66,22 +73,46 @@ const Header = () => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <nav className="py-4 md:hidden">
-            <Link href="/e-home" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+            <Link
+              href="/e-home"
+              className="block py-2 text-base hover:text-green-700"
+              onClick={toggleMenu}
+            >
               Home
             </Link>
-            <Link href="/categories" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+            <Link
+              href="/categories"
+              className="block py-2 text-base hover:text-green-700"
+              onClick={toggleMenu}
+            >
               Categories
             </Link>
-            <Link href="/shop" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+            <Link
+              href="/shop"
+              className="block py-2 text-base hover:text-green-700"
+              onClick={toggleMenu}
+            >
               Shop
             </Link>
-            <Link href="/e-about" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+            <Link
+              href="/e-about"
+              className="block py-2 text-base hover:text-green-700"
+              onClick={toggleMenu}
+            >
               About Us
             </Link>
-            <Link href="/e-contact" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+            <Link
+              href="/e-contact"
+              className="block py-2 text-base hover:text-green-700"
+              onClick={toggleMenu}
+            >
               Contact Us
             </Link>
-            <Link href="/blog" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+            <Link
+              href="/blog"
+              className="block py-2 text-base hover:text-green-700"
+              onClick={toggleMenu}
+            >
               Blog
             </Link>
             <Link
