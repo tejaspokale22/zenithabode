@@ -16,6 +16,7 @@ import NewsLetter from "@/e-components/NewsLetter";
 import { FaHeart, FaExchangeAlt, FaShoppingCart } from "react-icons/fa";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import axios from "axios";
 
 const categories = [
   "All",
@@ -114,7 +115,7 @@ const ProductCard = ({ product }) => {
             </span>
           )}
         </div>
-        <div className="flex gap-2 mt-auto">
+        <div className="flex gap-2 justify-between mt-auto">
           <Link
             href={""}
             rel="noopener noreferrer"
@@ -243,19 +244,16 @@ const Shop = () => {
     } else {
       params.append("page", currentPage);
     }
-    fetch(`/api/products?${params.toString()}`)
+    axios
+      .get(`/api/products?${params.toString()}`)
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch products");
-        return res.json();
-      })
-      .then((data) => {
         if (!ignore) {
-          setProducts(data);
+          setProducts(res.data);
           setLoading(false);
         }
       })
       .catch((err) => {
-        setError(err.message || "Unknown error");
+        setError(err.response?.data?.message || err.message || "Unknown error");
         setLoading(false);
       });
 

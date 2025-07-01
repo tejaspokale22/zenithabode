@@ -1,6 +1,7 @@
 import "./globals.css";
 import AppLayout from "@/components/AppLayout";
 import Script from "next/script";
+import { ToastContainer } from "react-toastify";
 
 export const metadata = {
   title: "An aesthetic room is given harmony",
@@ -22,6 +23,17 @@ export default function RootLayout({ children }) {
         <Script
           src="https://unihox-zenith-chatbot-u-rjlx6.ondigitalocean.app/static/chatbot-widget.js"
           strategy="afterInteractive"
+        />
+        <ToastContainer
+          position="top-right"
+          autoClose={2500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
         />
       </body>
     </html>

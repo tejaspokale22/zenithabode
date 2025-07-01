@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useState } from "react";
+import { TbArrowUpRight } from "react-icons/tb";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,10 +37,10 @@ const Header = () => {
               Shop
             </Link>
             <Link href="/e-about" className="hover:text-green-700">
-              About Us
+              About
             </Link>
             <Link href="/e-contact" className="hover:text-green-700">
-              Contact Us
+              Contact
             </Link>
             <Link href="/blog" className="hover:text-green-700">
               Blog
@@ -50,9 +51,10 @@ const Header = () => {
           <div className="flex items-center space-x-2 text-base text-gray-800 lg:space-x-3 lg:text-lg">
             <Link
               href="/"
-              className="hidden px-3 py-1 ml-2 text-sm font-semibold text-white bg-black rounded-full border border-black transition-colors lg:flex lg:px-4 lg:py-2 lg:text-base hover:bg-gray-800"
+              className="hidden px-3 py-1 ml-2 text-sm font-semibold text-white bg-black rounded-full border border-black transition-colors lg:flex lg:px-4 lg:py-2 lg:text-base hover:bg-gray-800 lg:justify-center lg:items-center"
             >
               Interior
+              <TbArrowUpRight className="ml-1 w-4 h-4" />
             </Link>
             <button className="block text-xl lg:hidden" onClick={toggleMenu}>
               {isMenuOpen ? <FaTimes /> : <FaBars />}
@@ -88,14 +90,14 @@ const Header = () => {
               className="block py-2 text-base hover:text-green-700"
               onClick={toggleMenu}
             >
-              About Us
+              About
             </Link>
             <Link
               href="/e-contact"
               className="block py-2 text-base hover:text-green-700"
               onClick={toggleMenu}
             >
-              Contact Us
+              Contact
             </Link>
             <Link
               href="/blog"
@@ -106,10 +108,11 @@ const Header = () => {
             </Link>
             <Link
               href="/"
-              className="block px-4 py-3 mt-2 w-full text-base font-semibold text-center text-white bg-black rounded-full border border-black transition-colors hover:bg-gray-800"
+              className="flex justify-center items-center px-4 py-3 mt-2 w-full text-base font-semibold text-center text-white bg-black rounded-full border border-black transition-colors hover:bg-gray-800"
               onClick={toggleMenu}
             >
               Interior
+              <TbArrowUpRight className="ml-1 w-4 h-4" />
             </Link>
           </nav>
         )}

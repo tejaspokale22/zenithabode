@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
-import Image from "next/image";
-import { Phone, Mail, MapPin, Send } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 import EHeader from "@/e-components/Header";
 import EFooter from "@/e-components/Footer";
@@ -9,6 +10,73 @@ import Offer from "@/e-components/Offer";
 import NewsLetter from "@/e-components/NewsLetter";
 
 const EContact = () => {
+  const [formData, setFormData] = React.useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isRobotChecked, setIsRobotChecked] = React.useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { name, email, message } = formData;
+    if (!name || !email || !message) {
+      toast.warning("Please fill in all the fields");
+      return;
+    }
+    if (name.length < 3) {
+      toast.warning("Name must be at least 3 characters long");
+      return;
+    }
+    if (name.length > 30) {
+      toast.warning("Name must not exceed 30 characters");
+      return;
+    }
+    if (!validateEmail(email)) {
+      toast.warning("Please enter a valid email address");
+      return;
+    }
+    if (!isRobotChecked) {
+      toast.warning("Please confirm you are not a robot");
+      return;
+    }
+    try {
+      // Replace with your actual API endpoint
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_SAAS_BASE_URL}/api/v2/contact`,
+        {
+          name,
+          email,
+          message,
+        }
+      );
+
+      if (res.data.success) {
+        toast.success("Your message was sent successfully!");
+        setFormData({ name: "", email: "", message: "" });
+        setIsRobotChecked(false);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      const message = err?.response?.data?.message;
+      if (message) {
+        toast.error(message);
+      } else {
+        toast.error("Server error, try again later.");
+      }
+    }
+  };
+
   return (
     <div className="mt-8 bg-white">
       <div className="px-4 py-16 mx-auto max-w-7xl sm:py-20">
@@ -70,33 +138,57 @@ const EContact = () => {
             <h2 className="mb-6 text-2xl font-bold text-center text-gray-800">
               Send a Message
             </h2>
-            <form>
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <form onSubmit={handleSubmit} autoComplete="off">
+              <div className="grid grid-cols-1 gap-5">
                 <input
                   type="text"
+                  name="name"
                   placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="p-3 w-full bg-white rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
                 <input
                   type="email"
+                  name="email"
                   placeholder="Your Email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="p-3 w-full bg-white rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
-                <input
-                  type="text"
-                  placeholder="Subject"
-                  className="p-3 w-full bg-white rounded-md border border-gray-200 sm:col-span-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
                 <textarea
+                  name="message"
                   placeholder="Your Message"
                   rows="6"
-                  className="p-3 w-full bg-white rounded-md border border-gray-200 sm:col-span-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="p-3 w-full bg-white rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
                 ></textarea>
               </div>
-              <div className="mt-6 text-center">
+              <div className="flex flex-col gap-4 items-center mt-6">
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="checkbox"
+                    id="robot-check"
+                    checked={isRobotChecked}
+                    onChange={(e) => setIsRobotChecked(e.target.checked)}
+                    className="w-4 h-4 cursor-pointer accent-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                  <label
+                    htmlFor="robot-check"
+                    className="text-base text-gray-700 cursor-pointer select-none"
+                  >
+                    I am not a robot
+                  </label>
+                </div>
                 <button
                   type="submit"
-                  className="inline-flex justify-center items-center px-8 py-3 font-semibold text-white bg-green-700 rounded-md transition-colors hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  disabled={!isRobotChecked}
+                  className={`inline-flex justify-center items-center px-8 py-3 font-semibold text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${
+                    isRobotChecked
+                      ? "bg-green-700 cursor-pointer hover:bg-green-800"
+                      : "bg-gray-400 cursor-not-allowed"
+                  }`}
                 >
                   Send Message
                 </button>
