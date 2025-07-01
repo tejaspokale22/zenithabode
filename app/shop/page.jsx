@@ -1,173 +1,300 @@
-'use client';
-import React, { useState, useMemo } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { FaStar, FaHeart, FaExchangeAlt, FaShoppingCart } from 'react-icons/fa';
-import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+"use client";
+import React, { useState, useMemo, useEffect, useRef } from "react";
+import Image from "next/image";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { useSearchParams } from 'next/navigation';
+import EHeader from "@/e-components/Header";
+import EFooter from "@/e-components/Footer";
+import Offer from "@/e-components/Offer";
+import NewsLetter from "@/e-components/NewsLetter";
 
-import EHeader from '@/e-components/Header';
-import EFooter from '@/e-components/Footer';
-import Offer from '@/e-components/Offer';
-import NewsLetter from '@/e-components/NewsLetter';
-
-const ShopBanner = () => {
-    return (
-        <div className="relative w-full h-56 bg-gray-900 md:h-72 lg:h-80">
-            <Image
-                src="/image/gallerys6.jpg"
-                alt="Shop Banner"
-                layout="fill"
-                objectFit="cover"
-                className="object-cover absolute inset-0 z-0 w-full h-full opacity-40"
-            />
-            <div className="flex relative z-10 flex-col justify-center items-center px-4 h-full text-center text-white">
-                <h1 className="text-4xl font-bold md:text-5xl lg:text-6xl">Our Shop</h1>
-                <div className="mt-4 text-sm md:text-base">
-                    <Link href="/e-home" className='text-green-500 transition-colors hover:text-green-400'>
-                        Home
-                    </Link>
-                    <span className="mx-2">&gt;</span>
-                    <span>Shop</span>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const allProducts = [
-    { id: 1, tag: 'latest', discount: '50% off', image: '/image/swiper1.jpg', category: 'Chair', name: 'Wooden Sofa Chair', rating: 4.9, price: 80.00, oldPrice: 160.00 },
-    { id: 2, tag: 'latest', discount: '10% off', image: '/image/swiper2.jpg', category: 'Chair', name: 'Circular Sofa Chair', rating: 5.0, price: 108.00, oldPrice: 120.00 },
-    { id: 3, tag: 'latest', discount: '10% off', image: '/image/swiper3.jpg', category: 'Nightstand', name: 'Wooden Nightstand', rating: 4.8, price: 54.00, oldPrice: 60.00 },
-    { id: 4, tag: 'featured', discount: '10% off', image: '/image/swiper4.jpg', category: 'Chair', name: 'Bean Bag Chair', rating: 4.7, price: 72.00, oldPrice: 80.00 },
-    { id: 5, tag: 'bestseller', discount: '15% off', image: '/image/swiper5.jpg', category: 'Sofa', name: 'Modern Gray Sofa', rating: 4.9, price: 255.00, oldPrice: 300.00 },
-    { id: 6, tag: 'featured', discount: '20% off', image: '/image/swiper6.jpg', category: 'Table', name: 'Minimalist Coffee Table', rating: 4.8, price: 120.00, oldPrice: 150.00 },
-    { id: 7, tag: 'bestseller', discount: '25% off', image: '/image/kitchen.png', category: 'Table', name: 'Modern Dining Table', rating: 4.9, price: 450.00, oldPrice: 600.00 },
-    { id: 8, tag: 'latest', discount: '10% off', image: '/image/living.jpg', category: 'Sofa', name: 'Plush Velvet Sofa', rating: 4.8, price: 629.00, oldPrice: 700.00 },
-    { id: 9, tag: 'featured', discount: '15% off', image: '/image/badroom.jpg', category: 'Bed', name: 'Queen Size Upholstered Bed', rating: 4.7, price: 340.00, oldPrice: 400.00 },
-    { id: 10, tag: 'bestseller', discount: '30% off', image: '/image/drowing.jpg', category: 'Decor', name: 'Abstract Wall Art', rating: 4.9, price: 105.00, oldPrice: 150.00 },
-    { id: 11, tag: 'latest', discount: '10% off', image: '/image/kitchen1.jpg', category: 'Kitchen', name: 'Marble Kitchen Island', rating: 4.9, price: 810.00, oldPrice: 900.00 },
-    { id: 12, tag: 'featured', discount: '20% off', image: '/image/swiper8.jpg', category: 'Lamp', name: 'Industrial Floor Lamp', rating: 4.6, price: 120.00, oldPrice: 150.00 },
+const categories = [
+  "All",
+  "teapoy",
+  "cabinet",
+  "chair",
+  "sofa",
+  "cieling_fan",
+  "washbasin",
+  "table",
+  "bathtub",
+  "shower_curtain",
+  "curtain",
+  "lightings",
+  "kitchen_storage",
+  "bed",
 ];
 
-const categories = ['All Products', 'Latest Products', 'Best Sellers', 'Featured Products'];
-
-const ProductCard = ({ product }) => (
-    <div className="p-4 text-left rounded-2xl bg-gray-50/70 group sm:p-5">
-        <div className="relative mb-4">
-            <div className="absolute top-3 left-3 z-10 px-3 py-1 text-xs font-semibold text-white bg-green-700 rounded-full">{product.discount}</div>
-            <div className="flex absolute top-3 right-3 z-10 flex-col space-y-2 opacity-0 transition-opacity group-hover:opacity-100">
-                <button className="p-2 text-gray-600 bg-white rounded-full shadow hover:text-red-500"><FaHeart /></button>
-                <button className="p-2 text-gray-600 bg-white rounded-full shadow hover:text-green-700"><FaExchangeAlt /></button>
-                <button className="p-2 text-gray-600 bg-white rounded-full shadow hover:text-blue-500"><FaShoppingCart /></button>
-            </div>
-            <div className="overflow-hidden relative rounded-xl aspect-square">
-                <Image src={product.image} alt={product.name} layout="fill" className="object-cover transition-transform duration-500 group-hover:scale-105" />
-            </div>
-        </div>
-        <div>
-            <div className="flex justify-between items-center mb-1 text-base">
-                <p className="text-gray-500">{product.category}</p>
-                <div className="flex items-center">
-                    <FaStar className="mr-1 text-yellow-400" />
-                    <span className="font-semibold text-gray-700">{product.rating}</span>
-                </div>
-            </div>
-            <h3 className="mb-2 text-lg font-bold text-gray-800 md:text-xl">{product.name}</h3>
-            <div className="flex items-center space-x-2">
-                <p className="text-xl font-bold text-green-700 md:text-2xl">${product.price.toFixed(2)}</p>
-                <p className="text-base text-gray-400 line-through">${product.oldPrice.toFixed(2)}</p>
-            </div>
-        </div>
-    </div>
+const Loader = () => (
+  <div className="flex justify-center items-center py-20 min-h-screen">
+    <span className="block w-7 h-7 rounded-full border-4 border-green-600 border-solid animate-spin border-t-transparent" />
+  </div>
 );
 
-const Shop = () => {
-    const [activeCategory, setActiveCategory] = useState('All Products');
-    const [sortOrder, setSortOrder] = useState('default');
-    const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 9;
+const ProductCard = ({ product }) => (
+  <div className="flex overflow-hidden flex-col bg-white rounded-2xl border border-gray-100 shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
+    <div className="flex relative justify-center items-center p-4 w-full h-48 bg-gray-50">
+      <Image
+        src={product.image_url}
+        alt={product.title}
+        fill
+        className="object-contain"
+        onError={(e) => { e.target.src = '/public/assets/sofa.jpg'; }}
+      />
+    </div>
+    <div className="flex flex-col flex-1 gap-2 px-6 pt-4 pb-5">
+      <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-2 min-h-[48px]">
+        {product.title}
+      </h3>
+      <div className="flex items-center mb-3">
+        <span className="text-xl font-extrabold text-green-700">
+          {product.price}
+        </span>
+      </div>
+      <div className="my-2 border-t border-gray-100"></div>
+      <div className="flex gap-2 mt-auto">
+        <a
+          href={product.product_link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 px-4 py-2 text-sm font-semibold text-center text-white bg-green-600 rounded-lg shadow transition hover:bg-green-700"
+        >
+          View Product
+        </a>
+        <button className="flex-1 px-4 py-2 text-sm font-semibold text-green-700 rounded-lg border-2 border-green-600 shadow transition hover:bg-green-50">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+);
 
-    const filteredProducts = useMemo(() => {
-        if (activeCategory === 'All Products') return allProducts;
-        const tagMap = { 'Latest Products': 'latest', 'Best Sellers': 'bestseller', 'Featured Products': 'featured' };
-        return allProducts.filter(p => p.tag === tagMap[activeCategory]);
-    }, [activeCategory]);
-
-    const sortedProducts = useMemo(() => {
-        const sorted = [...filteredProducts];
-        switch (sortOrder) {
-            case 'price-asc': return sorted.sort((a, b) => a.price - b.price);
-            case 'price-desc': return sorted.sort((a, b) => b.price - a.price);
-            case 'rating-desc': return sorted.sort((a, b) => b.rating - a.rating);
-            default: return sorted;
-        }
-    }, [filteredProducts, sortOrder]);
-
-    const paginatedProducts = useMemo(() => {
-        const startIndex = (currentPage - 1) * productsPerPage;
-        return sortedProducts.slice(startIndex, startIndex + productsPerPage);
-    }, [sortedProducts, currentPage]);
-
-    const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
-
-    return (
-        <section className="py-16 bg-white sm:py-20">
-            <div className="container px-4 mx-auto max-w-7xl">
-                <div className="mb-12 text-center">
-                    <div className="flex justify-center items-center mb-2">
-                        <span className="mr-3 w-8 h-px bg-yellow-500"></span>
-                        <p className="text-sm font-medium tracking-wider text-gray-600 uppercase">Our Collection</p>
-                    </div>
-                    <h2 className="text-3xl font-bold text-gray-800 sm:text-4xl">Explore Our <span className="text-green-700">Products</span></h2>
-                </div>
-
-                <div className="flex flex-col gap-6 justify-between items-center mb-8 md:flex-row md:mb-12">
-                    <div className="flex flex-wrap gap-2 justify-center">
-                        {categories.map(category => (
-                            <button key={category} onClick={() => { setActiveCategory(category); setCurrentPage(1); }}
-                                className={`px-4 py-2 text-sm rounded-full font-semibold transition-colors md:px-5 md:py-2.5 md:text-base ${activeCategory === category ? 'bg-green-700 text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'}`}>
-                                {category}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="relative">
-                        <select onChange={(e) => { setSortOrder(e.target.value); setCurrentPage(1); }} value={sortOrder} className="py-2 pr-10 pl-4 text-gray-600 bg-gray-100 rounded-full appearance-none focus:outline-none focus:ring-2 focus:ring-green-500">
-                            <option value="default">Default Sorting</option>
-                            <option value="price-asc">Price: Low to High</option>
-                            <option value="price-desc">Price: High to Low</option>
-                            <option value="rating-desc">By Rating</option>
-                        </select>
-                        <ChevronDown className="absolute right-3 top-1/2 w-5 h-5 text-gray-500 -translate-y-1/2 pointer-events-none" />
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 md:gap-8">
-                    {paginatedProducts.map(product => <ProductCard key={product.id} product={product} />)}
-                </div>
-
-                {totalPages > 1 && (
-                    <div className="flex justify-center items-center mt-12 space-x-2">
-                        <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="p-3 bg-gray-100 rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-100"><ChevronLeft size={20}/></button>
-                        {[...Array(totalPages)].map((_, i) => (
-                            <button key={i} onClick={() => setCurrentPage(i + 1)} className={`px-4 py-2 rounded-full text-sm font-semibold ${currentPage === i + 1 ? 'bg-green-700 text-white' : 'bg-gray-100 text-gray-700 hover:bg-green-100'}`}>{i + 1}</button>
-                        ))}
-                        <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="p-3 bg-gray-100 rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-100"><ChevronRight size={20}/></button>
-                    </div>
-                )}
-            </div>
-        </section>
-    );
+function Pagination({ totalPages, currentPage, setCurrentPage }) {
+  if (totalPages <= 1) return null;
+  const pageNumbers = [];
+  const maxNumbers = 5;
+  let start = Math.max(1, currentPage - 2);
+  let end = Math.min(totalPages, currentPage + 2);
+  if (currentPage <= 3) {
+    end = Math.min(totalPages, maxNumbers);
+  } else if (currentPage >= totalPages - 2) {
+    start = Math.max(1, totalPages - maxNumbers + 1);
+  }
+  for (let i = start; i <= end; i++) {
+    pageNumbers.push(i);
+  }
+  return (
+    <div className="flex flex-wrap gap-1 justify-center items-center mt-12">
+      <button
+        onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+        disabled={currentPage === 1}
+        className="p-2 text-gray-600 bg-gray-100 rounded-full hover:bg-green-100 disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label="Previous"
+      >
+        <FaArrowLeft />
+      </button>
+      {start > 1 && (
+        <>
+          <button
+            onClick={() => setCurrentPage(1)}
+            className={`px-3 py-2 rounded-full font-semibold ${
+              currentPage === 1
+                ? "bg-green-700 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-green-100"
+            }`}
+          >
+            1
+          </button>
+          {start > 2 && <span className="px-2">...</span>}
+        </>
+      )}
+      {pageNumbers.map((num) => (
+        <button
+          key={num}
+          onClick={() => setCurrentPage(num)}
+          className={`px-3 py-2 rounded-full font-semibold ${
+            currentPage === num
+              ? "bg-green-700 text-white"
+              : "bg-gray-100 text-gray-700 hover:bg-green-100"
+          }`}
+        >
+          {num}
+        </button>
+      ))}
+      {end < totalPages && (
+        <>
+          {end < totalPages - 1 && <span className="px-2">...</span>}
+          <button
+            onClick={() => setCurrentPage(totalPages)}
+            className={`px-3 py-2 rounded-full font-semibold ${
+              currentPage === totalPages
+                ? "bg-green-700 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-green-100"
+            }`}
+          >
+            {totalPages}
+          </button>
+        </>
+      )}
+      <button
+        onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+        disabled={currentPage === totalPages}
+        className="p-2 text-gray-600 bg-gray-100 rounded-full hover:bg-green-100 disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label="Next"
+      >
+        <FaArrowRight />
+      </button>
+    </div>
+  );
 }
 
-export default function ShopPage() {
-    return (
-        <div className="min-h-screen bg-white">
-            <Offer />
-            <EHeader />
-            <ShopBanner />
-            <Shop />
-            <NewsLetter />
-            <EFooter />
+const Shop = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const productsPerPage = 20;
+  const searchInputRef = useRef();
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const searchParams = useSearchParams();
+  const category = searchParams.get('category');
+
+  useEffect(() => {
+    let ignore = false;
+    setLoading(true);
+    fetch("/api/products")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch products");
+        return res.json();
+      })
+      .then((data) => {
+        if (!ignore) setProducts(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message || "Unknown error");
+        setLoading(false);
+      });
+    return () => { ignore = true; };
+  }, []);
+
+  const filteredProducts = useMemo(() => {
+    let filtered = products;
+    if (activeCategory !== "All") {
+      filtered = filtered.filter((p) => p.category === activeCategory);
+    }
+    if (search.trim()) {
+      filtered = filtered.filter((p) =>
+        p.title.toLowerCase().includes(search.trim().toLowerCase())
+      );
+    }
+    return filtered;
+  }, [products, activeCategory, search]);
+
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * productsPerPage;
+    return filteredProducts.slice(start, start + productsPerPage);
+  }, [filteredProducts, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory, search]);
+
+  useEffect(() => { 
+    if (category) {
+      setActiveCategory(category);
+    }
+  }, [category]);
+
+  if (loading) return <Loader />;
+  if (error)
+    return <div className="py-10 text-center text-red-500">{error}</div>;
+
+  return (
+    <section className="py-16 min-h-screen bg-gradient-to-b from-gray-50 to-white sm:py-20">
+      <div className="px-4 mx-auto max-w-[88rem]">
+        <div className="mb-10 text-center">
+          <h2 className="mb-2 text-4xl font-extrabold tracking-tight text-gray-900">
+            Discover Our <span className="text-green-700">Furniture</span>
+          </h2>
+          <p className="text-lg text-gray-500">
+            Browse our exclusive collection of quality furniture for every room
+            and style.
+          </p>
         </div>
-    );
+        <div className="flex flex-col gap-4 justify-between items-center mb-8 sm:flex-row">
+          <input
+            ref={searchInputRef}
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search products..."
+            className="px-4 py-2 w-full text-base rounded-lg border border-gray-200 shadow-sm sm:w-72 focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+          <div className="flex relative justify-between items-center w-full sm:w-60">
+            <span className="mr-2 text-lg font-semibold text-black">Categories:</span>
+            <select
+              value={activeCategory}
+              onChange={(e) => setActiveCategory(e.target.value)}
+              onFocus={() => setIsCategoryOpen(true)}
+              onBlur={() => setIsCategoryOpen(false)}
+              className="px-4 py-2 pr-10 w-full text-base text-black rounded-lg border border-gray-200 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              {categories.map((category) => (
+                <option
+                  key={category}
+                  value={category}
+                  className="text-black bg-white"
+                >
+                  {category.charAt(0).toUpperCase() +
+                    category.slice(1).replace("_", " ")}
+                </option>
+              ))}
+            </select>
+            <div className="flex absolute inset-y-0 right-0 items-center px-3 text-gray-500 pointer-events-none">
+              <svg
+                className={`w-4 h-4 transition-transform duration-200 ${isCategoryOpen ? 'rotate-180' : 'rotate-0'}`}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
+          {paginatedProducts.map((product) => (
+            <ProductCard key={product.product_id} product={product} />
+          ))}
+        </div>
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
+    </section>
+  );
+};
+
+export default function ShopPage() {
+  return (
+    <div className="min-h-screen bg-white">
+      <Offer />
+      <EHeader />
+      <Shop />
+      <NewsLetter />
+      <EFooter />
+    </div>
+  );
 }

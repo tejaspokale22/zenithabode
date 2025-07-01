@@ -29,11 +29,11 @@ const Header = () => {
             <Link href="/e-home" className="hover:text-green-700">
               Home
             </Link>
-            <Link href="/shop" className="hover:text-green-700">
-              Shop
-            </Link>
             <Link href="/categories" className="hover:text-green-700">
               Categories
+            </Link>
+            <Link href="/shop" className="hover:text-green-700">
+              Shop
             </Link>
             <Link href="/e-about" className="hover:text-green-700">
               About Us
@@ -69,11 +69,11 @@ const Header = () => {
             <Link href="/e-home" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
               Home
             </Link>
-            <Link href="/shop" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
-              Shop
-            </Link>
             <Link href="/categories" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
               Categories
+            </Link>
+            <Link href="/shop" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
+              Shop
             </Link>
             <Link href="/e-about" className="block py-2 text-base hover:text-green-700" onClick={toggleMenu}>
               About Us
