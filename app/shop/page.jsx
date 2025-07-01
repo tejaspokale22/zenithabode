@@ -2,11 +2,13 @@
 import React, { useState, useMemo, useEffect, useRef, Suspense } from "react";
 import Image from "next/image";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from "next/navigation";
 import EHeader from "@/e-components/Header";
 import EFooter from "@/e-components/Footer";
 import Offer from "@/e-components/Offer";
 import NewsLetter from "@/e-components/NewsLetter";
+import { FaHeart, FaExchangeAlt, FaShoppingCart } from "react-icons/fa";
+import Link from "next/link";
 
 const categories = [
   "All",
@@ -32,37 +34,80 @@ const Loader = () => (
 );
 
 const ProductCard = ({ product }) => (
-  <div className="flex overflow-hidden flex-col bg-white rounded-2xl border border-gray-100 shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:shadow-2xl">
-    <div className="flex relative justify-center items-center p-4 w-full h-48 bg-gray-50">
+  <div className="flex overflow-hidden relative flex-col bg-gray-100 rounded-2xl border border-gray-100 group">
+    <div className="flex relative justify-center items-center p-4 w-full h-[300px] bg-gray-100">
+      {/* Discount Badge */}
+      <span className="absolute top-3 left-3 z-10 px-2 py-1 text-xs font-bold text-white bg-green-700 rounded-full shadow">
+        15% off
+      </span>
+      {/* Action Icons */}
+      <div className="flex absolute top-3 right-3 z-10 flex-col space-y-2 opacity-0 transition-opacity group-hover:opacity-100">
+        <button className="p-2 text-gray-600 bg-white rounded-full shadow hover:text-red-500">
+          <FaHeart />
+        </button>
+        <button className="p-2 text-gray-600 bg-white rounded-full shadow hover:text-green-700">
+          <FaExchangeAlt />
+        </button>
+        <button className="p-2 text-gray-600 bg-white rounded-full shadow hover:text-blue-500">
+          <FaShoppingCart />
+        </button>
+      </div>
       <Image
         src={product.image_url}
         alt={product.title}
         fill
-        className="object-contain"
-        onError={(e) => { e.target.src = '/public/assets/sofa.jpg'; }}
+        className="object-cover"
+        onError={(e) => {
+          e.target.src = "/public/assets/sofa.jpg";
+        }}
       />
     </div>
     <div className="flex flex-col flex-1 gap-2 px-6 pt-4 pb-5">
+      {/* Category and Rating */}
+      <div className="flex justify-between items-center mb-1">
+        <span className="text-sm font-semibold text-gray-400">
+          {product.category
+            ? product.category.charAt(0).toUpperCase() +
+              product.category.slice(1).replace("_", " ")
+            : ""}
+        </span>
+        <span className="flex gap-1 items-center text-base font-bold text-yellow-500">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            className="w-4 h-4"
+          >
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.175c.969 0 1.371 1.24.588 1.81l-3.38 2.455a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.54 1.118l-3.38-2.454a1 1 0 00-1.175 0l-3.38 2.454c-.784.57-1.838-.196-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.05 9.394c-.783-.57-.38-1.81.588-1.81h4.175a1 1 0 00.95-.69l1.286-3.967z" />
+          </svg>
+          {product.rating || "4.8"}
+        </span>
+      </div>
+      {/* Title */}
       <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-2 min-h-[48px]">
         {product.title}
       </h3>
-      <div className="flex items-center mb-3">
-        <span className="text-xl font-extrabold text-green-700">
-          {product.price}
+      {/* Price */}
+      <div className="flex gap-2 items-end mb-3">
+        <span className="text-lg font-normal text-gray-700">
+          {product.discounted_price || product.price}
         </span>
+        {product.discounted_price && (
+          <span className="text-sm font-semibold text-gray-400 line-through">
+            {product.price}
+          </span>
+        )}
       </div>
-      <div className="my-2 border-t border-gray-100"></div>
       <div className="flex gap-2 mt-auto">
-        <a
-          href={product.product_link}
-          target="_blank"
+        <Link
+          href={""}
           rel="noopener noreferrer"
-          className="flex-1 px-4 py-2 text-sm font-semibold text-center text-white bg-green-600 rounded-lg shadow transition hover:bg-green-700"
+          className="flex justify-center items-center px-4 py-2 text-sm font-normal text-center text-white bg-green-600 rounded-lg shadow transition hover:bg-green-700"
         >
           View Product
-        </a>
-        <button className="flex-1 px-4 py-2 text-sm font-semibold text-green-700 rounded-lg border-2 border-green-600 shadow transition hover:bg-green-50">
-          Add to Cart
+        </Link>
+        <button className="flex gap-2 justify-center items-center px-4 py-2 text-sm font-normal text-green-700 rounded-lg border-2 border-green-600 shadow transition hover:bg-green-50">
+          <FaShoppingCart className="text-xl" /> Add to Cart
         </button>
       </div>
     </div>
@@ -159,7 +204,7 @@ const Shop = () => {
   const searchInputRef = useRef();
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const searchParams = useSearchParams();
-  const category = searchParams.get('category');
+  const category = searchParams.get("category");
 
   useEffect(() => {
     let ignore = false;
@@ -177,7 +222,9 @@ const Shop = () => {
         setError(err.message || "Unknown error");
         setLoading(false);
       });
-    return () => { ignore = true; };
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   const filteredProducts = useMemo(() => {
@@ -203,7 +250,7 @@ const Shop = () => {
     setCurrentPage(1);
   }, [activeCategory, search]);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (category) {
       setActiveCategory(category);
     }
@@ -235,7 +282,9 @@ const Shop = () => {
             className="px-4 py-2 w-full text-base rounded-lg border border-gray-200 shadow-sm sm:w-72 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
           <div className="flex relative justify-between items-center w-full sm:w-60">
-            <span className="mr-2 text-lg font-semibold text-black">Categories:</span>
+            <span className="mr-2 text-lg font-semibold text-black">
+              Categories:
+            </span>
             <select
               value={activeCategory}
               onChange={(e) => setActiveCategory(e.target.value)}
@@ -256,7 +305,7 @@ const Shop = () => {
             </select>
             <div className="flex absolute inset-y-0 right-0 items-center px-3 text-gray-500 pointer-events-none">
               <svg
-                className={`w-4 h-4 transition-transform duration-200 ${isCategoryOpen ? 'rotate-180' : 'rotate-0'}`}
+                className="w-4 h-4 transition-transform duration-200"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
