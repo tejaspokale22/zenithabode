@@ -1,14 +1,21 @@
 "use client";
-import React, { useState, useMemo, useEffect, useRef, Suspense } from "react";
+import React, {
+  useState,
+  useMemo,
+  useEffect,
+  useRef,
+  Suspense,
+  useCallback,
+} from "react";
 import Image from "next/image";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { useSearchParams } from "next/navigation";
 import EHeader from "@/e-components/Header";
 import EFooter from "@/e-components/Footer";
 import Offer from "@/e-components/Offer";
 import NewsLetter from "@/e-components/NewsLetter";
 import { FaHeart, FaExchangeAlt, FaShoppingCart } from "react-icons/fa";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const categories = [
   "All",
@@ -33,89 +40,99 @@ const Loader = () => (
   </div>
 );
 
-const ProductCard = ({ product }) => (
-  <div className="flex overflow-hidden relative flex-col bg-gray-100 rounded-2xl border border-gray-100 group">
-    <div className="flex relative justify-center items-center p-4 w-full h-[300px] bg-gray-100">
-      {/* Discount Badge */}
-      <span className="absolute top-3 left-3 z-10 px-2 py-1 text-xs font-bold text-white bg-green-700 rounded-full shadow">
-        15% off
-      </span>
-      {/* Action Icons */}
-      <div className="flex absolute top-3 right-3 z-10 flex-col space-y-2 opacity-0 transition-opacity group-hover:opacity-100">
-        <button className="p-2 text-gray-600 bg-white rounded-full shadow hover:text-red-500">
-          <FaHeart />
-        </button>
-        <button className="p-2 text-gray-600 bg-white rounded-full shadow hover:text-green-700">
-          <FaExchangeAlt />
-        </button>
-        <button className="p-2 text-gray-600 bg-white rounded-full shadow hover:text-blue-500">
-          <FaShoppingCart />
-        </button>
-      </div>
-      <Image
-        src={product.image_url}
-        alt={product.title}
-        fill
-        className="object-cover"
-        onError={(e) => {
-          e.target.src = "/public/assets/sofa.jpg";
-        }}
-      />
-    </div>
-    <div className="flex flex-col flex-1 gap-2 px-6 pt-4 pb-5">
-      {/* Category and Rating */}
-      <div className="flex justify-between items-center mb-1">
-        <span className="text-sm font-semibold text-gray-400">
-          {product.category
-            ? product.category.charAt(0).toUpperCase() +
-              product.category.slice(1).replace("_", " ")
-            : ""}
+const ProductCard = ({ product }) => {
+  const [imgSrc, setImgSrc] = useState(product.image_url);
+  return (
+    <div className="flex overflow-hidden relative flex-col bg-gray-100 rounded-2xl border border-gray-100 group">
+      <div className="flex relative justify-center items-center p-4 w-full h-[300px] bg-gray-100">
+        {/* Discount Badge */}
+        <span className="absolute top-3 left-3 z-10 px-2 py-1 text-xs font-bold text-white bg-green-700 rounded-full shadow">
+          15% off
         </span>
-        <span className="flex gap-1 items-center text-base font-bold text-yellow-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            className="w-4 h-4"
+        {/* Action Icons */}
+        <div className="flex absolute top-3 right-3 z-10 flex-col space-y-2 opacity-0 transition-opacity group-hover:opacity-100">
+          <button
+            className="p-2 text-gray-600 bg-white rounded-full shadow hover:text-red-500"
+            aria-label="Add to Wishlist"
           >
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.175c.969 0 1.371 1.24.588 1.81l-3.38 2.455a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.54 1.118l-3.38-2.454a1 1 0 00-1.175 0l-3.38 2.454c-.784.57-1.838-.196-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.05 9.394c-.783-.57-.38-1.81.588-1.81h4.175a1 1 0 00.95-.69l1.286-3.967z" />
-          </svg>
-          {product.rating || "4.8"}
-        </span>
+            <FaHeart />
+          </button>
+          <button
+            className="p-2 text-gray-600 bg-white rounded-full shadow hover:text-green-700"
+            aria-label="Compare"
+          >
+            <FaExchangeAlt />
+          </button>
+          <button
+            className="p-2 text-gray-600 bg-white rounded-full shadow hover:text-blue-500"
+            aria-label="Add to Cart"
+          >
+            <FaShoppingCart />
+          </button>
+        </div>
+        <Image
+          src={imgSrc}
+          alt={product.title}
+          fill
+          className="object-cover"
+          onError={() => setImgSrc("/assets/sofa.jpg")}
+        />
       </div>
-      {/* Title */}
-      <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-2 min-h-[48px]">
-        {product.title}
-      </h3>
-      {/* Price */}
-      <div className="flex gap-2 items-end mb-3">
-        <span className="text-lg font-normal text-gray-700">
-          {product.discounted_price || product.price}
-        </span>
-        {product.discounted_price && (
-          <span className="text-sm font-semibold text-gray-400 line-through">
-            {product.price}
+      <div className="flex flex-col flex-1 gap-2 px-6 pt-4 pb-5">
+        {/* Category and Rating */}
+        <div className="flex justify-between items-center mb-1">
+          <span className="text-sm font-semibold text-gray-400">
+            {product.category
+              ? product.category.charAt(0).toUpperCase() +
+                product.category.slice(1).replace("_", " ")
+              : ""}
           </span>
-        )}
-      </div>
-      <div className="flex gap-2 mt-auto">
-        <Link
-          href={""}
-          rel="noopener noreferrer"
-          className="flex justify-center items-center px-4 py-2 text-sm font-normal text-center text-white bg-green-600 rounded-lg shadow transition hover:bg-green-700"
-        >
-          View Product
-        </Link>
-        <button className="flex gap-2 justify-center items-center px-4 py-2 text-sm font-normal text-green-700 rounded-lg border-2 border-green-600 shadow transition hover:bg-green-50">
-          <FaShoppingCart className="text-xl" /> Add to Cart
-        </button>
+          <span className="flex gap-1 items-center text-base font-bold text-yellow-500">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              className="w-4 h-4"
+            >
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.175c.969 0 1.371 1.24.588 1.81l-3.38 2.455a1 1 0 00-.364 1.118l1.287 3.966c.3.922-.755 1.688-1.54 1.118l-3.38-2.454a1 1 0 00-1.175 0l-3.38 2.454c-.784.57-1.838-.196-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.05 9.394c-.783-.57-.38-1.81.588-1.81h4.175a1 1 0 00.95-.69l1.286-3.967z" />
+            </svg>
+            {product.rating || "4.8"}
+          </span>
+        </div>
+        {/* Title */}
+        <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-2 min-h-[48px]">
+          {product.title}
+        </h3>
+        {/* Price */}
+        <div className="flex gap-2 items-end mb-3">
+          <span className="text-lg font-normal text-gray-700">
+            {product.discounted_price || product.price}
+          </span>
+          {product.discounted_price && (
+            <span className="text-sm font-semibold text-gray-400 line-through">
+              {product.price}
+            </span>
+          )}
+        </div>
+        <div className="flex gap-2 mt-auto">
+          <Link
+            href={""}
+            rel="noopener noreferrer"
+            className="flex justify-center items-center px-4 py-2 text-sm font-normal text-center text-white bg-green-600 rounded-lg shadow transition hover:bg-green-700"
+          >
+            View Product
+          </Link>
+          <button className="flex gap-2 justify-center items-center px-4 py-2 text-sm font-normal text-green-700 rounded-lg border-2 border-green-600 shadow transition hover:bg-green-50">
+            <FaShoppingCart className="text-xl" /> Add to Cart
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 function Pagination({ totalPages, currentPage, setCurrentPage }) {
-  if (totalPages <= 1) return null;
+  // if (totalPages <= 1) return null;
   const pageNumbers = [];
   const maxNumbers = 5;
   let start = Math.max(1, currentPage - 2);
@@ -134,7 +151,7 @@ function Pagination({ totalPages, currentPage, setCurrentPage }) {
         onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
         disabled={currentPage === 1}
         className="p-2 text-gray-600 bg-gray-100 rounded-full hover:bg-green-100 disabled:opacity-50 disabled:cursor-not-allowed"
-        aria-label="Previous"
+        aria-label="Previous Page"
       >
         <FaArrowLeft />
       </button>
@@ -185,7 +202,7 @@ function Pagination({ totalPages, currentPage, setCurrentPage }) {
         onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
         disabled={currentPage === totalPages}
         className="p-2 text-gray-600 bg-gray-100 rounded-full hover:bg-green-100 disabled:opacity-50 disabled:cursor-not-allowed"
-        aria-label="Next"
+        aria-label="Next Page"
       >
         <FaArrowRight />
       </button>
@@ -197,71 +214,90 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const searchParams = useSearchParams();
+  const urlCategory = searchParams.get("category");
   const [activeCategory, setActiveCategory] = useState("All");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPageState] = useState(1);
   const [search, setSearch] = useState("");
   const productsPerPage = 20;
   const searchInputRef = useRef();
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const searchParams = useSearchParams();
-  const category = searchParams.get("category");
+
+  // Memoize setCurrentPage to avoid unnecessary re-renders
+  const setCurrentPage = useCallback((pageOrFn) => {
+    setCurrentPageState(pageOrFn);
+  }, []);
+
+  useEffect(() => {
+    if (urlCategory && categories.includes(urlCategory)) {
+      setActiveCategory(urlCategory);
+    }
+    // eslint-disable-next-line
+  }, [urlCategory]);
 
   useEffect(() => {
     let ignore = false;
     setLoading(true);
-    fetch("/api/products")
+    const params = new URLSearchParams();
+    if (activeCategory !== "All") {
+      params.append("category", activeCategory);
+    } else {
+      params.append("page", currentPage);
+    }
+    fetch(`/api/products?${params.toString()}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch products");
         return res.json();
       })
       .then((data) => {
-        if (!ignore) setProducts(data);
-        setLoading(false);
+        if (!ignore) {
+          setProducts(data);
+          setLoading(false);
+        }
       })
       .catch((err) => {
         setError(err.message || "Unknown error");
         setLoading(false);
       });
+
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [activeCategory, currentPage]);
 
   const filteredProducts = useMemo(() => {
-    let filtered = products;
-    if (activeCategory !== "All") {
-      filtered = filtered.filter((p) => p.category === activeCategory);
-    }
     if (search.trim()) {
-      filtered = filtered.filter((p) =>
+      return products.filter((p) =>
         p.title.toLowerCase().includes(search.trim().toLowerCase())
       );
     }
-    return filtered;
-  }, [products, activeCategory, search]);
+    return products;
+  }, [products, search]);
 
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  // Memoize paginatedProducts
   const paginatedProducts = useMemo(() => {
-    const start = (currentPage - 1) * productsPerPage;
-    return filteredProducts.slice(start, start + productsPerPage);
-  }, [filteredProducts, currentPage]);
+    return activeCategory === "All"
+      ? filteredProducts
+      : filteredProducts.slice(
+          (currentPage - 1) * productsPerPage,
+          currentPage * productsPerPage
+        );
+  }, [filteredProducts, activeCategory, currentPage, productsPerPage]);
+
+  const totalPages =
+    activeCategory === "All"
+      ? 29
+      : Math.ceil(filteredProducts.length / productsPerPage);
 
   useEffect(() => {
     setCurrentPage(1);
   }, [activeCategory, search]);
-
-  useEffect(() => {
-    if (category) {
-      setActiveCategory(category);
-    }
-  }, [category]);
 
   if (loading) return <Loader />;
   if (error)
     return <div className="py-10 text-center text-red-500">{error}</div>;
 
   return (
-    <section className="py-16 min-h-screen bg-gradient-to-b from-gray-50 to-white sm:py-20">
+    <section className="py-24 min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <div className="px-4 mx-auto max-w-[88rem]">
         <div className="mb-10 text-center">
           <h2 className="mb-2 text-4xl font-extrabold tracking-tight text-gray-900">
@@ -288,8 +324,6 @@ const Shop = () => {
             <select
               value={activeCategory}
               onChange={(e) => setActiveCategory(e.target.value)}
-              onFocus={() => setIsCategoryOpen(true)}
-              onBlur={() => setIsCategoryOpen(false)}
               className="px-4 py-2 pr-10 w-full text-base text-black rounded-lg border border-gray-200 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               {categories.map((category) => (
@@ -322,9 +356,15 @@ const Shop = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
-          {paginatedProducts.map((product) => (
-            <ProductCard key={product.product_id} product={product} />
-          ))}
+          {paginatedProducts.length === 0 ? (
+            <div className="col-span-full py-10 text-center text-gray-500">
+              No products found.
+            </div>
+          ) : (
+            paginatedProducts.map((product) => (
+              <ProductCard key={product.product_id} product={product} />
+            ))
+          )}
         </div>
         <Pagination
           totalPages={totalPages}

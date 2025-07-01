@@ -9,6 +9,7 @@ import { FiPlus } from "react-icons/fi";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
 import { BsArrowUpRight } from "react-icons/bs";
 import Image from "next/image";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -34,12 +35,15 @@ const Hero = () => {
             </p>
             <div className="flex items-center space-x-4">
               <button className="flex items-center px-4 py-2 space-x-2 text-sm text-white bg-green-600 rounded-full transition duration-300 sm:px-5 sm:py-2 sm:text-base hover:bg-green-700">
-                <span>Shop Now</span>
-                <FaArrowRight className="w-3 h-3 sm:w-4 sm:h-4"/>
+                <Link href="/shop">Shop Now</Link>
+                <FaArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
               </button>
-              <button className="text-sm font-semibold text-gray-800 sm:text-base hover:underline">
+              <Link
+                href="/categories"
+                className="text-sm font-semibold text-gray-800 sm:text-base hover:underline"
+              >
                 View All Products
-              </button>
+              </Link>
             </div>
             <div className="flex items-center pt-4 space-x-4">
               <div className="flex -space-x-2">

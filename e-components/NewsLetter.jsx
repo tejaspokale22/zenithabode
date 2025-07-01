@@ -1,5 +1,5 @@
-import React from 'react';
-import { FiMail } from 'react-icons/fi';
+import React from "react";
+import { FiMail } from "react-icons/fi";
 
 const NewsLetter = () => {
   return (
@@ -19,7 +19,8 @@ const NewsLetter = () => {
             Updates to Our Latest Collection
           </h2>
           <p className="mx-auto mb-8 max-w-md text-gray-500">
-            Get 20% off on your first order just by subscribing to our newsletter
+            Get 20% off on your first order just by subscribing to our
+            newsletter
           </p>
           <form className="flex flex-col justify-center items-center p-2 mx-auto max-w-xl bg-white rounded-full shadow-sm sm:flex-row">
             <div className="relative flex-grow w-full">
@@ -36,7 +37,7 @@ const NewsLetter = () => {
             </div>
             <button
               type="submit"
-              className="px-8 py-3 mt-2 w-full font-semibold text-gray-900 bg-yellow-400 rounded-full transition-colors sm:w-auto sm:mt-0 hover:bg-yellow-500 focus:outline-none"
+              className="px-4 py-3 mt-2 w-1/2 font-semibold text-gray-900 bg-yellow-400 rounded-full transition-colors sm:w-auto sm:mt-0 hover:bg-yellow-500 focus:outline-none md:w-3/4"
             >
               Subscribe
             </button>
