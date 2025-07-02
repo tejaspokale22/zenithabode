@@ -4,7 +4,6 @@ import React, {
   useMemo,
   useEffect,
   useRef,
-  Suspense,
   useCallback,
 } from "react";
 import Image from "next/image";
@@ -217,26 +216,48 @@ const Shop = () => {
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
   const urlCategory = searchParams.get("category");
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [currentPage, setCurrentPageState] = useState(1);
+  const [activeCategory, setActiveCategory] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("shop_activeCategory") || "All";
+    }
+    return "All";
+  });
+  const [currentPage, setCurrentPageState] = useState(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("shop_currentPage");
+      return stored ? parseInt(stored, 10) : 1;
+    }
+    return 1;
+  });
   const [search, setSearch] = useState("");
   const productsPerPage = 20;
   const searchInputRef = useRef();
+  const isFirstRender = useRef(true);
 
-  // Memoize setCurrentPage to avoid unnecessary re-renders
   const setCurrentPage = useCallback((pageOrFn) => {
-    setCurrentPageState(pageOrFn);
+    setCurrentPageState((prev) => {
+      const newPage =
+        typeof pageOrFn === "function" ? pageOrFn(prev) : pageOrFn;
+      if (typeof window !== "undefined") {
+        localStorage.setItem("shop_currentPage", newPage);
+      }
+      return newPage;
+    });
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("shop_activeCategory", activeCategory);
+    }
+  }, [activeCategory]);
 
   useEffect(() => {
     if (urlCategory && categories.includes(urlCategory)) {
       setActiveCategory(urlCategory);
     }
-    // eslint-disable-next-line
   }, [urlCategory]);
 
   useEffect(() => {
-    let ignore = false;
     setLoading(true);
     const params = new URLSearchParams();
     if (activeCategory !== "All") {
@@ -244,22 +265,17 @@ const Shop = () => {
     } else {
       params.append("page", currentPage);
     }
+
     axios
       .get(`/api/products?${params.toString()}`)
       .then((res) => {
-        if (!ignore) {
-          setProducts(res.data);
-          setLoading(false);
-        }
+        setProducts(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         setError(err.response?.data?.message || err.message || "Unknown error");
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [activeCategory, currentPage]);
 
   const filteredProducts = useMemo(() => {
@@ -271,7 +287,6 @@ const Shop = () => {
     return products;
   }, [products, search]);
 
-  // Memoize paginatedProducts
   const paginatedProducts = useMemo(() => {
     return activeCategory === "All"
       ? filteredProducts
@@ -287,6 +302,10 @@ const Shop = () => {
       : Math.ceil(filteredProducts.length / productsPerPage);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     setCurrentPage(1);
   }, [activeCategory, search]);
 
@@ -379,9 +398,7 @@ export default function ShopPage() {
     <div className="min-h-screen bg-white">
       <Offer />
       <EHeader />
-      <Suspense fallback={<Loader />}>
-        <Shop />
-      </Suspense>
+      <Shop />
       <NewsLetter />
       <EFooter />
     </div>
