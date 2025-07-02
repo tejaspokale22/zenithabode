@@ -215,7 +215,7 @@ function Pagination({ totalPages, currentPage, setCurrentPage }) {
   );
 }
 
-export default function ShopPage() {
+function ShopClient() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -268,7 +268,7 @@ export default function ShopPage() {
       );
     }
     return products;
-  }, [products, search]);
+  }, [products, search, urlCategory]);
 
   const paginatedProducts = useMemo(() => {
     return urlCategory
@@ -277,7 +277,7 @@ export default function ShopPage() {
           currentPage * productsPerPage
         )
       : filteredProducts;
-  }, [filteredProducts, currentPage, productsPerPage]);
+  }, [filteredProducts, currentPage, productsPerPage, urlCategory]);
 
   const totalPages = urlCategory
     ? Math.ceil(filteredProducts.length / productsPerPage)
@@ -287,104 +287,108 @@ export default function ShopPage() {
     <div className="min-h-screen bg-white">
       <Offer />
       <EHeader />
-      <Suspense fallback={<div>Loading shop...</div>}>
-        {/* Inlined ShopClient content */}
-        {loading ? (
-          <Loader />
-        ) : error ? (
-          <div className="py-10 text-center text-red-500">{error}</div>
-        ) : (
-          <section className="py-24 min-h-screen bg-gradient-to-b from-gray-50 to-white">
-            <div className="px-4 mx-auto max-w-[88rem]">
-              <div className="mb-10 text-center">
-                <h2 className="mb-2 text-4xl font-extrabold tracking-tight text-gray-900">
-                  Discover Our <span className="text-green-700">Furniture</span>
-                </h2>
-                <p className="text-lg text-gray-500">
-                  Browse our exclusive collection of quality furniture for every
-                  room and style.
-                </p>
-              </div>
-              <div className="flex flex-col gap-4 justify-between items-center mb-8 sm:flex-row">
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search products..."
-                  className="px-4 py-2 w-full text-base rounded-lg border border-gray-200 shadow-sm sm:w-72 focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-                <div className="flex relative justify-between items-center w-full sm:w-80">
-                  <span className="mr-2 text-lg font-semibold text-black">
-                    Categories:
-                  </span>
-                  <select
-                    value={urlCategory ? urlCategory : "All"}
-                    onChange={(e) => {
-                      if (e.target.value === "All") {
-                        router.push("/shop", { scroll: false });
-                      } else {
-                        router.push(
-                          `/shop?category=${encodeURIComponent(
-                            e.target.value
-                          )}`,
-                          { scroll: false }
-                        );
-                      }
-                    }}
-                    className="px-4 py-2 pr-10 w-full text-base text-black bg-white rounded-lg border border-gray-300 shadow-md appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                  >
-                    {categories.map((category) => (
-                      <option
-                        key={category}
-                        value={category}
-                        className="text-black bg-white"
-                      >
-                        {category.charAt(0).toUpperCase() +
-                          category.slice(1).replace("_", " ")}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="flex absolute inset-y-0 right-0 items-center px-3 text-gray-500 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 transition-transform duration-200"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
+      {/* Inlined ShopClient content */}
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <div className="py-10 text-center text-red-500">{error}</div>
+      ) : (
+        <section className="py-24 min-h-screen bg-gradient-to-b from-gray-50 to-white">
+          <div className="px-4 mx-auto max-w-[88rem]">
+            <div className="mb-10 text-center">
+              <h2 className="mb-2 text-4xl font-extrabold tracking-tight text-gray-900">
+                Discover Our <span className="text-green-700">Furniture</span>
+              </h2>
+              <p className="text-lg text-gray-500">
+                Browse our exclusive collection of quality furniture for every
+                room and style.
+              </p>
+            </div>
+            <div className="flex flex-col gap-4 justify-between items-center mb-8 sm:flex-row">
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search products..."
+                className="px-4 py-2 w-full text-base rounded-lg border border-gray-200 shadow-sm sm:w-72 focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+              <div className="flex relative justify-between items-center w-full sm:w-80">
+                <span className="mr-2 text-lg font-semibold text-black">
+                  Categories:
+                </span>
+                <select
+                  value={urlCategory ? urlCategory : "All"}
+                  onChange={(e) => {
+                    if (e.target.value === "All") {
+                      router.push("/shop", { scroll: false });
+                    } else {
+                      router.push(
+                        `/shop?category=${encodeURIComponent(e.target.value)}`,
+                        { scroll: false }
+                      );
+                    }
+                  }}
+                  className="px-4 py-2 pr-10 w-full text-base text-black bg-white rounded-lg border border-gray-300 shadow-md appearance-none focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                >
+                  {categories.map((category) => (
+                    <option
+                      key={category}
+                      value={category}
+                      className="text-black bg-white"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
+                      {category.charAt(0).toUpperCase() +
+                        category.slice(1).replace("_", " ")}
+                    </option>
+                  ))}
+                </select>
+                <div className="flex absolute inset-y-0 right-0 items-center px-3 text-gray-500 pointer-events-none">
+                  <svg
+                    className="w-4 h-4 transition-transform duration-200"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
                 </div>
               </div>
-              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
-                {!loading && paginatedProducts.length === 0 ? (
-                  <div className="col-span-full py-10 text-center text-gray-500">
-                    No products found.
-                  </div>
-                ) : (
-                  paginatedProducts.map((product) => (
-                    <ProductCard key={product.product_id} product={product} />
-                  ))
-                )}
-              </div>
-              <Pagination
-                totalPages={totalPages}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-              />
             </div>
-          </section>
-        )}
-      </Suspense>
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
+              {!loading && paginatedProducts.length === 0 ? (
+                <div className="col-span-full py-10 text-center text-gray-500">
+                  No products found.
+                </div>
+              ) : (
+                paginatedProducts.map((product) => (
+                  <ProductCard key={product.product_id} product={product} />
+                ))
+              )}
+            </div>
+            <Pagination
+              totalPages={totalPages}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </div>
+        </section>
+      )}
       <NewsLetter />
       <EFooter />
     </div>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense fallback={<div>Loading shop...</div>}>
+      <ShopClient />
+    </Suspense>
   );
 }
