@@ -252,11 +252,11 @@ function ShopClient() {
       query = `page=${currentPage}`;
       cacheKey = `page_${currentPage}`;
     }
-
     const cachedData = localStorage.getItem(cacheKey);
     if (cachedData) {
       try {
         setProducts(JSON.parse(cachedData));
+        setLoading(false);
       } catch (e) {
         console.error("Failed to parse cached data", e);
       }
@@ -266,8 +266,8 @@ function ShopClient() {
       .get(`/api/products?${query}`)
       .then((res) => {
         setProducts(res.data);
-        localStorage.setItem(cacheKey, JSON.stringify(res.data));
         setLoading(false);
+        localStorage.setItem(cacheKey, JSON.stringify(res.data));
       })
       .catch((err) => {
         setError(err.response?.data?.message || err.message || "Unknown error");
