@@ -14,9 +14,8 @@ import Offer from "@/e-components/Offer";
 import NewsLetter from "@/e-components/NewsLetter";
 import { FaHeart, FaExchangeAlt, FaShoppingCart } from "react-icons/fa";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import axios from "axios";
-import { Suspense } from "react";
 
 const categories = [
   "All",
@@ -234,6 +233,7 @@ const Shop = () => {
   const productsPerPage = 20;
   const searchInputRef = useRef();
   const isFirstRender = useRef(true);
+  const router = useRouter();
 
   const setCurrentPage = useCallback((pageOrFn) => {
     setCurrentPageState((prev) => {
@@ -260,15 +260,23 @@ const Shop = () => {
 
   useEffect(() => {
     setLoading(true);
-    const params = new URLSearchParams();
-    if (activeCategory !== "All") {
-      params.append("category", activeCategory);
+
+    let query = "";
+    // Prioritize urlCategory if present and valid
+    if (
+      urlCategory &&
+      categories.includes(urlCategory) &&
+      urlCategory !== "All"
+    ) {
+      query = `category=${encodeURIComponent(urlCategory)}`;
+    } else if (activeCategory !== "All") {
+      query = `category=${encodeURIComponent(activeCategory)}`;
     } else {
-      params.append("page", currentPage);
+      query = `page=${currentPage}`;
     }
 
     axios
-      .get(`/api/products?${params.toString()}`)
+      .get(`/api/products?${query}`)
       .then((res) => {
         setProducts(res.data);
         setLoading(false);
@@ -277,7 +285,7 @@ const Shop = () => {
         setError(err.response?.data?.message || err.message || "Unknown error");
         setLoading(false);
       });
-  }, [activeCategory, currentPage]);
+  }, [activeCategory, currentPage, urlCategory]);
 
   const filteredProducts = useMemo(() => {
     if (search.trim()) {
@@ -341,7 +349,17 @@ const Shop = () => {
             </span>
             <select
               value={activeCategory}
-              onChange={(e) => setActiveCategory(e.target.value)}
+              onChange={(e) => {
+                setActiveCategory(e.target.value);
+                if (e.target.value === "All") {
+                  router.push("/shop", { scroll: false });
+                } else {
+                  router.push(
+                    `/shop?category=${encodeURIComponent(e.target.value)}`,
+                    { scroll: false }
+                  );
+                }
+              }}
               className="px-4 py-2 pr-10 w-full text-base text-black rounded-lg border border-gray-200 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               {categories.map((category) => (
@@ -399,9 +417,7 @@ export default function ShopPage() {
     <div className="min-h-screen bg-white">
       <Offer />
       <EHeader />
-      <Suspense fallback={<Loader />}>
-        <Shop />
-      </Suspense>
+      <Shop />
       <NewsLetter />
       <EFooter />
     </div>

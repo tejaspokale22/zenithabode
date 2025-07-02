@@ -3,6 +3,7 @@ import React from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
 import EHeader from "@/e-components/Header";
 import EFooter from "@/e-components/Footer";
@@ -10,59 +11,26 @@ import Offer from "@/e-components/Offer";
 import NewsLetter from "@/e-components/NewsLetter";
 
 const EContact = () => {
-  const [formData, setFormData] = React.useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm();
   const [isRobotChecked, setIsRobotChecked] = React.useState(false);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { name, email, message } = formData;
-    if (!name || !email || !message) {
-      toast.warning("Please fill in all the fields");
-      return;
-    }
-    if (name.length < 3) {
-      toast.warning("Name must be at least 3 characters long");
-      return;
-    }
-    if (name.length > 30) {
-      toast.warning("Name must not exceed 30 characters");
-      return;
-    }
-    if (!validateEmail(email)) {
-      toast.warning("Please enter a valid email address");
-      return;
-    }
+  const onSubmit = async (data) => {
     if (!isRobotChecked) {
-      toast.warning("Please confirm you are not a robot");
       return;
     }
     try {
-      // Replace with your actual API endpoint
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_SAAS_BASE_URL}/api/v2/contact`,
-        {
-          name,
-          email,
-          message,
-        }
+        data
       );
-
       if (res.data.success) {
         toast.success("Your message was sent successfully!");
-        setFormData({ name: "", email: "", message: "" });
+        reset();
         setIsRobotChecked(false);
       } else {
         toast.error("Something went wrong. Please try again.");
@@ -138,32 +106,57 @@ const EContact = () => {
             <h2 className="mb-6 text-2xl font-bold text-center text-gray-800">
               Send a Message
             </h2>
-            <form onSubmit={handleSubmit} autoComplete="off">
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
               <div className="grid grid-cols-1 gap-5">
                 <input
                   type="text"
-                  name="name"
                   placeholder="Your Name"
-                  value={formData.name}
-                  onChange={handleChange}
+                  {...register("name", {
+                    required: "Name is required",
+                    minLength: {
+                      value: 3,
+                      message: "Name must be at least 3 characters",
+                    },
+                    maxLength: {
+                      value: 30,
+                      message: "Name must not exceed 30 characters",
+                    },
+                  })}
                   className="p-3 w-full bg-white rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
+                {errors.name && (
+                  <span className="text-sm text-red-500">
+                    {errors.name.message}
+                  </span>
+                )}
                 <input
                   type="email"
-                  name="email"
                   placeholder="Your Email"
-                  value={formData.email}
-                  onChange={handleChange}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Please enter a valid email address",
+                    },
+                  })}
                   className="p-3 w-full bg-white rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
+                {errors.email && (
+                  <span className="text-sm text-red-500">
+                    {errors.email.message}
+                  </span>
+                )}
                 <textarea
-                  name="message"
                   placeholder="Your Message"
                   rows="6"
-                  value={formData.message}
-                  onChange={handleChange}
+                  {...register("message", { required: "Message is required" })}
                   className="p-3 w-full bg-white rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
                 ></textarea>
+                {errors.message && (
+                  <span className="text-sm text-red-500">
+                    {errors.message.message}
+                  </span>
+                )}
               </div>
               <div className="flex flex-col gap-4 items-center mt-6">
                 <div className="flex gap-2 items-center">
@@ -183,14 +176,14 @@ const EContact = () => {
                 </div>
                 <button
                   type="submit"
-                  disabled={!isRobotChecked}
+                  disabled={!isRobotChecked || isSubmitting}
                   className={`inline-flex justify-center items-center px-8 py-3 font-semibold text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${
-                    isRobotChecked
+                    isRobotChecked && !isSubmitting
                       ? "bg-green-700 cursor-pointer hover:bg-green-800"
                       : "bg-gray-400 cursor-not-allowed"
                   }`}
                 >
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
               </div>
             </form>

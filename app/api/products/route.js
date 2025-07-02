@@ -20,12 +20,13 @@ export async function GET(req) {
 
     const cached = await getCache(cacheKey);
     if (cached) {
+      console.log("cache");
       return new Response(JSON.stringify(cached), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
     }
-
+    console.log("db call");
     // 🐢 Fetch from database
     if (category) {
       result = await pool.query(
