@@ -16,6 +16,7 @@ import { FaHeart, FaExchangeAlt, FaShoppingCart } from "react-icons/fa";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
+import { Suspense } from "react";
 
 const categories = [
   "All",
@@ -307,7 +308,7 @@ const Shop = () => {
       return;
     }
     setCurrentPage(1);
-  }, [activeCategory, search]);
+  }, [activeCategory, search, setCurrentPage]);
 
   if (loading) return <Loader />;
   if (error)
@@ -398,7 +399,9 @@ export default function ShopPage() {
     <div className="min-h-screen bg-white">
       <Offer />
       <EHeader />
-      <Shop />
+      <Suspense fallback={<Loader />}>
+        <Shop />
+      </Suspense>
       <NewsLetter />
       <EFooter />
     </div>
