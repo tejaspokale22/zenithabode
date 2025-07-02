@@ -18,16 +18,16 @@ export async function GET(req) {
       cacheKey = ["products", "page", page.toString()];
     }
 
+    //cache
     const cached = await getCache(cacheKey);
     if (cached) {
-      console.log("cache");
       return new Response(JSON.stringify(cached), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
     }
-    console.log("db call");
-    // 🐢 Fetch from database
+
+    //db call
     if (category) {
       result = await pool.query(
         "SELECT * FROM furniture WHERE category = $1 ORDER BY product_id",
