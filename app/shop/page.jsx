@@ -239,20 +239,34 @@ function ShopClient() {
     setLoading(true);
 
     let query = "";
+    let cacheKey = "";
+
     if (
       urlCategory &&
       categories.includes(urlCategory) &&
       urlCategory !== "All"
     ) {
       query = `category=${encodeURIComponent(urlCategory)}`;
+      cacheKey = `category_${urlCategory}`;
     } else {
       query = `page=${currentPage}`;
+      cacheKey = `page_${currentPage}`;
+    }
+
+    const cachedData = localStorage.getItem(cacheKey);
+    if (cachedData) {
+      try {
+        setProducts(JSON.parse(cachedData));
+      } catch (e) {
+        console.error("Failed to parse cached data", e);
+      }
     }
 
     axios
       .get(`/api/products?${query}`)
       .then((res) => {
         setProducts(res.data);
+        localStorage.setItem(cacheKey, JSON.stringify(res.data));
         setLoading(false);
       })
       .catch((err) => {
