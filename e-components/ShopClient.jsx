@@ -216,19 +216,8 @@ const ShopClient = () => {
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
   const urlCategory = searchParams.get("category");
-  const [activeCategory, setActiveCategory] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("shop_activeCategory") || "All";
-    }
-    return "All";
-  });
-  const [currentPage, setCurrentPageState] = useState(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("shop_currentPage");
-      return stored ? parseInt(stored, 10) : 1;
-    }
-    return 1;
-  });
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [currentPage, setCurrentPageState] = useState(1);
   const [search, setSearch] = useState("");
   const productsPerPage = 20;
   const searchInputRef = useRef();
@@ -239,18 +228,9 @@ const ShopClient = () => {
     setCurrentPageState((prev) => {
       const newPage =
         typeof pageOrFn === "function" ? pageOrFn(prev) : pageOrFn;
-      if (typeof window !== "undefined") {
-        localStorage.setItem("shop_currentPage", newPage);
-      }
       return newPage;
     });
   }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("shop_activeCategory", activeCategory);
-    }
-  }, [activeCategory]);
 
   useEffect(() => {
     if (urlCategory && categories.includes(urlCategory)) {
