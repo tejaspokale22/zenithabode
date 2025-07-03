@@ -9,6 +9,7 @@ import { TbArrowUpRight, TbMenu2, TbX } from "react-icons/tb";
 const nav = [
   { href: "/", label: "HOME" },
   { href: "/about", label: "ABOUT" },
+  { href: "/gallery", label: "GALLERY" },
   { href: "/contact", label: "CONTACT US" },
 ];
 

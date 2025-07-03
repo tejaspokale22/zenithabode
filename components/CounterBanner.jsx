@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useInView, motion } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
-import CountUp from 'react-countup';
+import { useInView, motion } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import CountUp from "react-countup";
 
 const stats = [
-  { value: 30, suffix: '+', label: 'OF INTERIOR' },
-  { value: 5, suffix: '+', label: 'YEARS OF EXPERIENCE', highlight: true },
-  { value: 10, suffix: '+', label: 'PROFESSIONAL TEAM' },
-  { value: 3, suffix: '+', label: 'BEST INTERIOR AWARDS' },
+  { value: 30, suffix: "+", label: "OF INTERIOR" },
+  { value: 5, suffix: "+", label: "YEARS OF EXPERIENCE", highlight: true },
+  { value: 10, suffix: "+", label: "PROFESSIONAL TEAM" },
+  { value: 3, suffix: "+", label: "BEST INTERIOR AWARDS" },
 ];
 
 export default function CounterBanner() {
@@ -35,14 +35,14 @@ export default function CounterBanner() {
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={hasAnimated ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             className={`font-bold text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl ${
-              highlight ? 'text-[#b19160]' : 'text-[#f1ebdf]'
+              highlight ? "text-[#b19160]" : "text-[#f1ebdf]"
             }`}
           >
             {hasAnimated ? (
               <CountUp
-                end={value} 
+                end={value}
                 duration={2.5}
                 easingFn={(t, b, c, d) => {
                   // easeOutCubic
@@ -52,9 +52,11 @@ export default function CounterBanner() {
                 }}
               />
             ) : (
-              '0'
+              "0"
             )}
-            <span className="text-2xl align-middle xs:text-3xl sm:text-4xl md:text-5xl">{suffix}</span>
+            <span className="text-2xl align-middle xs:text-3xl sm:text-4xl md:text-5xl">
+              {suffix}
+            </span>
           </motion.div>
           <p className="mt-2 text-xs font-semibold tracking-wide text-black uppercase xs:text-sm sm:text-base md:text-lg">
             {label}

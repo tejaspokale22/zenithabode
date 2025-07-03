@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import assets from "@/public/assets.js";
+import Link from "next/link";
 
 const sliderData = [
   {
@@ -33,13 +34,13 @@ const Hero = () => {
 
   const nextSlide = useCallback(() => {
     setCurrent(current === length - 1 ? 0 : current + 1);
-  }, [current, length]); 
+  }, [current, length]);
 
   const prevSlide = () => {
     setCurrent(current === 0 ? length - 1 : current - 1);
   };
 
-  useEffect(() => { 
+  useEffect(() => {
     const slideInterval = setInterval(nextSlide, 7000);
     return () => clearInterval(slideInterval);
   }, [nextSlide]);
@@ -81,9 +82,11 @@ const Hero = () => {
               <h1 className="my-2 text-xl font-bold leading-tight xs:my-3 xs:text-2xl sm:text-3xl md:text-4xl">
                 {sliderData[current].title}
               </h1>
-              <button className="bg-[#c7a760] text-black font-bold py-2 px-4 xs:py-3 xs:px-6 rounded-md mt-3 xs:mt-4 uppercase text-[10px] xs:text-xs tracking-wider hover:bg-opacity-90 transition-all duration-300 transform">
-                READ MORE
-              </button>
+              <Link href="/about">
+                <button className="bg-[#c7a760] text-black font-bold py-2 px-4 xs:py-3 xs:px-6 rounded-md mt-3 xs:mt-4 uppercase text-[10px] xs:text-xs tracking-wider hover:bg-opacity-90 transition-all duration-300 transform">
+                  READ MORE
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -104,7 +107,10 @@ const Hero = () => {
             aria-label="Next Slide"
           >
             <ArrowRight size={18} className="md:hidden" />
-            <ArrowRight size={22} className="hidden xs:inline-block sm:hidden" />
+            <ArrowRight
+              size={22}
+              className="hidden xs:inline-block sm:hidden"
+            />
             <ArrowRight size={28} className="hidden sm:inline-block" />
           </button>
         </div>

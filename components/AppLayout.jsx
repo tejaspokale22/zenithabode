@@ -8,7 +8,14 @@ export default function AppLayout({ children }) {
   const pathname = usePathname();
 
   // Array of routes where Header and Footer should be hidden
-  const excludedRoutes = ["/e-home", "/e-about", "/e-contact", "/shop", "/categories", "/blog"];
+  const excludedRoutes = [
+    "/e-home",
+    "/e-about",
+    "/e-contact",
+    "/shop",
+    "/categories",
+    "/blog",
+  ];
 
   const isExcludedRoute = excludedRoutes.includes(pathname);
 
