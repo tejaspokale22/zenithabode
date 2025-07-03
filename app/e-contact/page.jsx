@@ -24,10 +24,7 @@ const EContact = () => {
       return;
     }
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_SAAS_BASE_URL}/api/v2/contact`,
-        data
-      );
+      const res = await axios.post("/api/contact", data);
       if (res.data.success) {
         toast.success("Your message was sent successfully!");
         reset();
@@ -130,6 +127,23 @@ const EContact = () => {
                   </span>
                 )}
                 <input
+                  type="text"
+                  placeholder="Your Mobile No"
+                  {...register("mobile", {
+                    required: "Mobile number is required",
+                    pattern: {
+                      value: /^\d{10,15}$/,
+                      message: "Please enter a valid mobile number",
+                    },
+                  })}
+                  className="p-3 w-full bg-white rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+                {errors.mobile && (
+                  <span className="text-sm text-red-500">
+                    {errors.mobile.message}
+                  </span>
+                )}
+                <input
                   type="email"
                   placeholder="Your Email"
                   {...register("email", {
@@ -183,7 +197,14 @@ const EContact = () => {
                       : "bg-gray-400 cursor-not-allowed"
                   }`}
                 >
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {isSubmitting ? (
+                    <div className="flex gap-2 justify-center items-center">
+                      <span className="inline-block w-4 h-4 rounded-full border-[3px] border-white animate-spin border-t-transparent"></span>
+                      <p>Sending...</p>
+                    </div>
+                  ) : (
+                    <span>Submit</span>
+                  )}
                 </button>
               </div>
             </form>
