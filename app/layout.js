@@ -2,6 +2,7 @@ import "./globals.css";
 import AppLayout from "@/components/AppLayout";
 import Script from "next/script";
 import { ToastContainer } from "react-toastify";
+import { ReactLenis } from "@/lib/lenis";
 
 export const metadata = {
   title: "An aesthetic room is given harmony",
@@ -11,31 +12,33 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="vsc-initialized">
-        {/* Chatbot script added here */}
-        <Script
-          src="https://unihox-zenith-chatbot-u-rjlx6.ondigitalocean.app/static/chatbot-widget.js"
-          strategy="afterInteractive"
-        />
-        <AppLayout>{children}</AppLayout>
+      <ReactLenis root>
+        <body className="vsc-initialized">
+          {/* Chatbot script added here */}
+          <Script
+            src="https://unihox-zenith-chatbot-u-rjlx6.ondigitalocean.app/static/chatbot-widget.js"
+            strategy="afterInteractive"
+          />
+          <AppLayout>{children}</AppLayout>
 
-        {/* Chatbot script added here */}
-        <Script
-          src="https://unihox-zenith-chatbot-u-rjlx6.ondigitalocean.app/static/chatbot-widget.js"
-          strategy="afterInteractive"
-        />
-        <ToastContainer
-          position="top-right"
-          autoClose={2500}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-      </body>
+          {/* Chatbot script added here */}
+          <Script
+            src="https://unihox-zenith-chatbot-u-rjlx6.ondigitalocean.app/static/chatbot-widget.js"
+            strategy="afterInteractive"
+          />
+          <ToastContainer
+            position="top-right"
+            autoClose={2500}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+        </body>
+      </ReactLenis>
     </html>
   );
 }
