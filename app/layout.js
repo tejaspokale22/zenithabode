@@ -14,18 +14,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <ReactLenis root>
         <body className="vsc-initialized">
-          {/* Chatbot script added here */}
           <Script
-            src="https://unihox-zenith-chatbot-u-rjlx6.ondigitalocean.app/static/chatbot-widget.js"
+            src="https://customer-support-chatbots-backen-nxxmb.ondigitalocean.app/static/furniture-widget.js"
             strategy="afterInteractive"
           />
           <AppLayout>{children}</AppLayout>
-
-          {/* Chatbot script added here */}
-          <Script
-            src="https://unihox-zenith-chatbot-u-rjlx6.ondigitalocean.app/static/chatbot-widget.js"
-            strategy="afterInteractive"
-          />
           <ToastContainer
             position="top-right"
             autoClose={2500}
