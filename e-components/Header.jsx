@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
 import { TbArrowUpRight } from "react-icons/tb";
 
@@ -50,6 +50,14 @@ const Header = () => {
           {/* Icons */}
           <div className="flex items-center space-x-2 text-base text-gray-800 lg:space-x-3 lg:text-lg">
             <Link
+              href="/cart"
+              className="flex justify-center items-center p-2 text-xl text-green-700 hover:text-green-800"
+              aria-label="Cart"
+            >
+              <FaShoppingCart size={30} className="mr-1" />
+              <span>Cart</span>
+            </Link>
+            <Link
               href="/"
               className="hidden px-3 py-1 ml-2 text-sm font-semibold text-white bg-black rounded-full border border-black transition-colors lg:flex lg:px-4 lg:py-2 lg:text-base hover:bg-gray-800 lg:justify-center lg:items-center"
             >
@@ -64,6 +72,13 @@ const Header = () => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <nav className="py-4 lg:hidden">
+            <Link
+              href="/cart"
+              className="flex items-center px-4 py-2 mb-2 text-base font-semibold text-green-700 hover:text-green-800"
+              onClick={toggleMenu}
+            >
+              <FaShoppingCart className="mr-2" size={4} /> Cart
+            </Link>
             <Link
               href="/e-home"
               className="block py-2 text-base hover:text-green-700"

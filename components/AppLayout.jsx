@@ -15,6 +15,7 @@ export default function AppLayout({ children }) {
     "/shop",
     "/categories",
     "/blog",
+    "/cart",
   ];
 
   const isExcludedRoute = excludedRoutes.includes(pathname);

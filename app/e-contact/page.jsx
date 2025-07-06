@@ -47,7 +47,7 @@ const EContact = () => {
       <div className="px-4 py-16 mx-auto max-w-7xl sm:py-20">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Contact Information */}
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-start">
             <div className="mb-8">
               <div className="flex items-center mb-2">
                 <span className="mr-3 w-8 h-px bg-yellow-500"></span>

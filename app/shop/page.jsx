@@ -22,6 +22,7 @@ import {
 } from "react-icons/fa";
 import { useSearchParams, useRouter } from "next/navigation";
 import axios from "axios";
+import { getCart, setCart } from "@/lib/cart";
 
 const categories = [
   "All",
@@ -73,10 +74,33 @@ const HeroBanner = () => (
   </div>
 );
 
+function addToCart(product) {
+  const cart = getCart();
+  const idx = cart.findIndex((item) => item.product_id === product.product_id);
+  if (idx > -1) {
+    cart[idx].quantity += 1;
+  } else {
+    cart.push({ ...product, quantity: 1 });
+  }
+  setCart(cart);
+}
+
 const ProductCard = ({ product, index }) => {
   const [imgSrc, setImgSrc] = useState(product.image_url);
   const [amount, savingsText] = product.price.split("with");
   const router = useRouter();
+  const [added, setAdded] = useState(false);
+
+  useEffect(() => {
+    // Check if product is already in cart
+    const cart = getCart();
+    setAdded(cart.some((item) => item.product_id === product.product_id));
+  }, [product.product_id]);
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    setAdded(true);
+  };
 
   return (
     <div
@@ -146,12 +170,29 @@ const ProductCard = ({ product, index }) => {
               });
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
-            className="flex justify-center items-center px-3 py-2 text-xs font-normal text-center text-white bg-green-600 rounded-lg shadow transition sm:px-4 sm:text-sm hover:bg-green-700"
+            className="flex-1 min-w-[140px] flex justify-center items-center px-3 py-2 text-xs font-normal text-center text-white bg-green-600 rounded-lg shadow transition sm:px-4 sm:text-sm hover:bg-green-700"
           >
             View Product
           </button>
-          <button className="flex gap-2 justify-center items-center px-3 py-2 text-xs font-normal text-green-700 rounded-lg border-2 border-green-600 shadow transition sm:px-4 sm:text-sm hover:bg-green-50">
-            <FaShoppingCart className="text-lg sm:text-xl" /> Add to Cart
+          <button
+            className={`flex-1 min-w-[140px] flex gap-2 justify-center items-center px-3 py-2 text-xs font-normal rounded-lg border-2 shadow transition sm:px-4 sm:text-xs italic  ${
+              added
+                ? "text-gray-500 bg-gray-200 border-gray-300 opacity-80 cursor-not-allowed"
+                : "text-green-700 border-green-600 hover:bg-green-50"
+            }`}
+            onClick={handleAddToCart}
+            disabled={added}
+          >
+            {added ? (
+              <>
+                <FaShoppingCart className="mr-1 text-xs" />
+                Added to Cart
+              </>
+            ) : (
+              <>
+                <FaShoppingCart className="text-lg sm:text-xl" /> Add to Cart
+              </>
+            )}
           </button>
         </div>
       </div>
@@ -237,131 +278,159 @@ function Pagination({ totalPages, currentPage, setCurrentPage }) {
   );
 }
 
-const ProductDetail = ({ product, similarProducts, onBack }) => (
-  <div className="flex flex-col gap-6 py-4 w-full bg-white xs:gap-8 xs:py-6 sm:py-8 lg:flex-row lg:gap-8">
-    {/* Product Image */}
-    <div className="flex-1 flex flex-col items-center justify-start min-w-[0] max-w-full xs:min-w-[220px] xs:max-w-md sm:min-w-[320px] sm:max-w-lg px-2 xs:px-4 lg:sticky lg:top-24">
-      <button
-        onClick={onBack}
-        className="flex gap-1 items-center self-start px-2 py-1 mb-3 text-xs text-gray-600 rounded-full shadow-none transition xs:mb-4 hover:underline"
-        style={{ fontSize: "0.85rem", background: "none" }}
-      >
-        <FaArrowLeft style={{ fontSize: "0.9em" }} /> Back to Products
-      </button>
-      <div className="overflow-hidden relative mb-3 w-full h-56 bg-gray-50 rounded-xl xs:mb-4 xs:h-72 sm:h-96">
-        <Image
-          src={product.image_url}
-          alt={product.title}
-          fill
-          className="object-contain"
-          priority
-        />
-      </div>
-    </div>
-    {/* Product Info & Actions */}
-    <div className="flex-[2] flex flex-col gap-3 xs:gap-4 px-2 xs:px-4 max-w-full sm:max-w-2xl mx-auto">
-      <span className="px-2 py-1 mt-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full xs:mt-2 w-fit">
-        {product.category.charAt(0).toUpperCase() +
-          product.category.slice(1).replace("_", " ")}
-      </span>
-      <h1 className="mb-2 text-lg font-extrabold leading-tight text-gray-900 xs:text-xl sm:text-2xl md:text-3xl">
-        {product.title}
-      </h1>
-      <div className="flex gap-2 items-center mb-2 xs:gap-3">
-        {[...Array(5)].map((_, i) => (
-          <FaStar
-            key={i}
-            className={
-              i < Math.round(product.rating || 4.8)
-                ? "text-yellow-500"
-                : "text-gray-300"
-            }
-          />
-        ))}
-        <span className="ml-1 text-xs font-normal text-gray-500">
-          ({product.reviews || 32} ratings)
-        </span>
-      </div>
-      <div className="flex flex-col gap-1 mb-3 xs:mb-4">
-        <span className="text-lg font-bold text-green-700 xs:text-xl sm:text-2xl md:text-3xl">
-          {product.price.split("with")[0].trim()}
-        </span>
-        <span className="text-xs text-gray-500 xs:text-sm sm:text-base">
-          with {product.price.split("with")[1]?.trim()}
-        </span>
-      </div>
-      <div className="flex flex-wrap gap-3 mb-4 xs:gap-4 xs:mb-6">
-        <button className="flex gap-2 items-center px-4 py-2 text-base font-semibold text-white bg-green-600 rounded-lg shadow transition xs:px-6 xs:py-3 xs:text-lg hover:bg-green-700">
-          <FaShoppingCart className="text-lg xs:text-xl" /> Add to Cart
+const ProductDetail = ({ product, similarProducts, onBack }) => {
+  const [added, setAdded] = useState(false);
+  useEffect(() => {
+    const cart = getCart();
+    setAdded(cart.some((item) => item.product_id === product.product_id));
+  }, [product.product_id]);
+  const handleAddToCart = () => {
+    addToCart(product);
+    setAdded(true);
+  };
+  return (
+    <div className="flex flex-col gap-6 py-4 w-full bg-white xs:gap-8 xs:py-6 sm:py-8 lg:flex-row lg:gap-8">
+      {/* Product Image */}
+      <div className="flex-1 flex flex-col items-center justify-start min-w-[0] max-w-full xs:min-w-[220px] xs:max-w-md sm:min-w-[320px] sm:max-w-lg px-2 xs:px-4 lg:sticky lg:top-24">
+        <button
+          onClick={onBack}
+          className="flex gap-1 items-center self-start px-2 py-1 mb-3 text-xs text-gray-600 rounded-full shadow-none transition xs:mb-4 hover:underline"
+          style={{ fontSize: "0.85rem", background: "none" }}
+        >
+          <FaArrowLeft style={{ fontSize: "0.9em" }} /> Back to Products
         </button>
+        <div className="overflow-hidden relative mb-3 w-full h-56 bg-gray-50 rounded-xl xs:mb-4 xs:h-72 sm:h-96">
+          <Image
+            src={product.image_url}
+            alt={product.title}
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
       </div>
-      <div className="mb-3 xs:mb-4">
-        <h2 className="mb-2 text-base font-semibold text-gray-800 xs:text-lg">
-          Product Details
-        </h2>
-        <ul className="grid grid-cols-1 gap-y-2 gap-x-8 text-xs xs:text-sm sm:text-base sm:grid-cols-2">
-          {product.specs &&
-            Object.entries(product.specs).map(([key, value]) => (
-              <li key={key} className="flex gap-2">
-                <span className="font-semibold text-gray-700">{key}:</span>
-                <span className="text-gray-600">{value}</span>
-              </li>
-            ))}
-        </ul>
-      </div>
-    </div>
-    {/* Similar Products */}
-    <div className="flex-1 min-w-[180px] xs:min-w-[220px] max-w-xs bg-white border-l border-gray-200 px-2 xs:px-4 pt-2 hidden lg:block">
-      <h3 className="mt-2 mb-3 text-lg font-bold text-green-800">
-        Similar Products
-      </h3>
-      <div className="flex flex-col gap-3 xs:gap-4">
-        {similarProducts.length === 0 ? (
-          <span className="text-sm text-gray-500">
-            No similar products found.
+      {/* Product Info & Actions */}
+      <div className="flex-[2] flex flex-col gap-3 xs:gap-4 px-2 xs:px-4 max-w-full sm:max-w-2xl mx-auto">
+        <span className="px-2 py-1 mt-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full xs:mt-2 w-fit">
+          {product.category.charAt(0).toUpperCase() +
+            product.category.slice(1).replace("_", " ")}
+        </span>
+        <h1 className="mb-2 text-lg font-extrabold leading-tight text-gray-900 xs:text-xl sm:text-2xl md:text-3xl">
+          {product.title}
+        </h1>
+        <div className="flex gap-2 items-center mb-2 xs:gap-3">
+          {[...Array(5)].map((_, i) => (
+            <FaStar
+              key={i}
+              className={
+                i < Math.round(product.rating || 4.8)
+                  ? "text-yellow-500"
+                  : "text-gray-300"
+              }
+            />
+          ))}
+          <span className="ml-1 text-xs font-normal text-gray-500">
+            ({product.reviews || 32} ratings)
           </span>
-        ) : (
-          similarProducts.slice(0, 6).map((sp) => (
-            <div
-              key={sp.product_id}
-              className="flex gap-3 items-center p-2 bg-gray-50 rounded-lg border border-gray-200 transition cursor-pointer hover:shadow-md"
-              onClick={() => {
-                const params = new URLSearchParams(window.location.search);
-                params.set("product", sp.product_id);
-                window.history.replaceState(
-                  {},
-                  "",
-                  `${window.location.pathname}?${params.toString()}`
-                );
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              <div className="overflow-hidden relative w-10 h-10 bg-white rounded-lg border xs:w-14 xs:h-14">
-                <Image
-                  src={sp.image_url}
-                  alt={sp.title}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <div className="flex-1">
-                <div
-                  className="mb-1 text-xs font-bold text-left text-gray-900 outline-none xs:text-sm line-clamp-2"
-                  style={{ background: "none", border: "none", padding: 0 }}
-                >
-                  {sp.title}
+        </div>
+        <div className="flex flex-col gap-1 mb-3 xs:mb-4">
+          <span className="text-lg font-bold text-green-700 xs:text-xl sm:text-2xl md:text-3xl">
+            {product.price.split("with")[0].trim()}
+          </span>
+          <span className="text-xs text-gray-500 xs:text-sm sm:text-base">
+            with {product.price.split("with")[1]?.trim()}
+          </span>
+        </div>
+        <div className="flex flex-wrap gap-3 mb-4 xs:gap-4 xs:mb-6">
+          <button
+            className={`flex gap-2 items-center px-4 py-2 text-xs font-semibold rounded-lg shadow transition xs:px-6 xs:py-3 xs:text-xs italic  ${
+              added
+                ? "text-gray-500 bg-gray-200 border border-gray-300 opacity-80 cursor-not-allowed"
+                : "text-white bg-green-600 hover:bg-green-700"
+            }`}
+            onClick={handleAddToCart}
+            disabled={added}
+          >
+            {added ? (
+              <>
+                <FaShoppingCart className="mr-1 text-xs" />
+                Added to Cart
+              </>
+            ) : (
+              <>
+                <FaShoppingCart className="text-lg xs:text-xl" /> Add to Cart
+              </>
+            )}
+          </button>
+        </div>
+        <div className="mb-3 xs:mb-4">
+          <h2 className="mb-2 text-base font-semibold text-gray-800 xs:text-lg">
+            Product Details
+          </h2>
+          <ul className="grid grid-cols-1 gap-y-2 gap-x-8 text-xs xs:text-sm sm:text-base sm:grid-cols-2">
+            {product.specs &&
+              Object.entries(product.specs).map(([key, value]) => (
+                <li key={key} className="flex gap-2">
+                  <span className="font-semibold text-gray-700">{key}:</span>
+                  <span className="text-gray-600">{value}</span>
+                </li>
+              ))}
+          </ul>
+        </div>
+      </div>
+      {/* Similar Products */}
+      <div className="flex-1 min-w-[180px] xs:min-w-[220px] max-w-xs bg-white border-l border-gray-200 px-2 xs:px-4 pt-2 hidden lg:block">
+        <h3 className="mt-2 mb-3 text-lg font-bold text-green-800">
+          Similar Products
+        </h3>
+        <div className="flex flex-col gap-3 xs:gap-4">
+          {similarProducts.length === 0 ? (
+            <span className="text-sm text-gray-500">
+              No similar products found.
+            </span>
+          ) : (
+            similarProducts.slice(0, 8).map((sp) => (
+              <div
+                key={sp.product_id}
+                className="flex gap-3 items-center p-2 bg-gray-50 rounded-lg border border-gray-200 transition cursor-pointer hover:shadow-md"
+                onClick={() => {
+                  const params = new URLSearchParams(window.location.search);
+                  params.set("product", sp.product_id);
+                  window.history.replaceState(
+                    {},
+                    "",
+                    `${window.location.pathname}?${params.toString()}`
+                  );
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                <div className="overflow-hidden relative w-10 h-10 bg-white rounded-lg border xs:w-14 xs:h-14">
+                  <Image
+                    src={sp.image_url}
+                    alt={sp.title}
+                    fill
+                    className="object-contain"
+                  />
                 </div>
-                <div className="text-xs font-semibold text-green-700 xs:text-sm">
-                  {sp.price.split("with")[0].trim()}
+                <div className="flex-1">
+                  <div
+                    className="mb-1 text-xs font-bold text-left text-gray-900 outline-none xs:text-sm line-clamp-2"
+                    style={{ background: "none", border: "none", padding: 0 }}
+                  >
+                    {sp.title}
+                  </div>
+                  <div className="text-xs font-semibold text-green-700 xs:text-sm">
+                    {sp.price.split("with")[0].trim()}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 function ShopClient() {
   const [products, setProducts] = useState([]);
