@@ -95,10 +95,12 @@ const categoriesData = [
 const CategoriesHero = () => (
   <section className="overflow-hidden relative py-16 mb-10 bg-gradient-to-br from-green-50 via-white to-yellow-50 sm:py-24">
     <div className="absolute inset-0">
-      <img
+      <Image
         src="/image/gallery13.jpg"
         alt="Categories Hero Background"
+        fill
         className="object-cover w-full h-full opacity-30"
+        priority
       />
       <div className="absolute inset-0 bg-gradient-to-b from-white/80 to-green-100/60" />
     </div>

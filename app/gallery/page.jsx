@@ -57,7 +57,7 @@ export default function GalleryPage() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selected, currentIdx]);
+  }, [selected, currentIdx, nextImg, prevImg]);
 
   const openModal = (img, idx) => {
     setSelected(img);

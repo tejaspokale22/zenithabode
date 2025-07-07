@@ -7,12 +7,6 @@ import Offer from "../../e-components/Offer";
 import Image from "next/image";
 import { getCart, setCart } from "@/lib/cart";
 import Loader from "../shop/page";
-import { useRouter } from "next/navigation";
-
-const shippingOptions = [
-  { label: "Standard Delivery - ₹50.00", value: 50 },
-  { label: "Express Delivery - ₹150.00", value: 150 },
-];
 
 function parsePrice(priceStr) {
   // Extracts the numeric price from a string like "₹9,998.00 with 55 percent savings"
@@ -22,9 +16,18 @@ function parsePrice(priceStr) {
 
 export default function CartPage() {
   const [cart, setCartState] = useState([]);
-  const [shipping, setShipping] = useState(shippingOptions[0].value);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    phone_no: "",
+    email: "",
+    address: "",
+  });
+  const [formErrors, setFormErrors] = useState({});
+  const [placingOrder, setPlacingOrder] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
+  const [orderError, setOrderError] = useState("");
 
   useEffect(() => {
     setCartState(getCart());
@@ -49,7 +52,67 @@ export default function CartPage() {
     (sum, item) => sum + parsePrice(item.price) * item.quantity,
     0
   );
-  const total = subtotal + Number(shipping);
+  const total = subtotal;
+
+  // Modal form validation
+  const validateForm = () => {
+    const errors = {};
+    if (!form.name.trim()) errors.name = "Name is required";
+    if (!form.phone_no.trim()) errors.phone_no = "Phone number is required";
+    return errors;
+  };
+
+  const handleFormChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleCheckoutClick = () => {
+    setShowCheckout(true);
+  };
+
+  const handleModalClose = () => {
+    setShowCheckout(false);
+    setFormErrors({});
+  };
+
+  // Place order function
+  const placeOrder = async () => {
+    const errors = validateForm();
+    setFormErrors(errors);
+    setOrderError("");
+    if (Object.keys(errors).length === 0) {
+      setPlacingOrder(true);
+      try {
+        const products = cart.map((item) => ({
+          product_id: item.product_id,
+          quantity: item.quantity,
+        }));
+        const res = await fetch("/api/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...form,
+            products,
+            total_cost: Number(total.toFixed(2)),
+          }),
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          setOrderSuccess(true);
+          setCart([]);
+          setCartState([]);
+        } else {
+          setOrderError(
+            data.error || "Failed to place order. Please try again."
+          );
+        }
+      } catch (err) {
+        setOrderError("Failed to place order. Please try again.");
+      } finally {
+        setPlacingOrder(false);
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -209,37 +272,6 @@ export default function CartPage() {
                     })}
                   </span>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <span className="text-base font-medium text-gray-700">
-                    Shipping
-                  </span>
-                  <select
-                    className="px-3 py-2 w-full text-gray-700 bg-white rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
-                    value={shipping}
-                    onChange={(e) => setShipping(e.target.value)}
-                  >
-                    {shippingOptions.map((opt, i) => (
-                      <option key={i} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="text-base font-medium text-gray-700">
-                    Promo Code
-                  </span>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      placeholder="Enter your code"
-                      className="flex-1 px-3 py-2 text-gray-700 bg-white rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500"
-                    />
-                    <button className="px-4 py-2 font-semibold text-white bg-red-400 rounded-lg shadow transition hover:bg-red-500">
-                      Apply
-                    </button>
-                  </div>
-                </div>
                 <div className="flex justify-between items-center pt-4 text-lg font-bold text-gray-900 border-t border-gray-200">
                   <span>Total Cost</span>
                   <span>
@@ -251,7 +283,7 @@ export default function CartPage() {
                 </div>
                 <button
                   className="py-3 mt-2 w-full text-lg font-bold text-white bg-green-700 rounded-full shadow transition hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                  onClick={() => router.push("/e-contact")}
+                  onClick={handleCheckoutClick}
                   disabled={cart.length === 0}
                 >
                   Checkout
@@ -261,6 +293,196 @@ export default function CartPage() {
           </main>
           <NewsLetter />
           <EFooter />
+          {/* Checkout Modal */}
+          {showCheckout && (
+            <div
+              className="flex fixed inset-0 z-50 justify-center items-center bg-black bg-opacity-50"
+              onClick={handleModalClose}
+            >
+              <div
+                className="relative p-6 mx-4 w-full max-w-md bg-white rounded-2xl shadow-2xl sm:p-8 animate-fade-in"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  className="absolute top-4 right-4 text-2xl font-bold text-gray-400 hover:text-gray-700"
+                  onClick={handleModalClose}
+                  aria-label="Close"
+                >
+                  &times;
+                </button>
+                {orderSuccess ? (
+                  <div className="flex flex-col gap-4 justify-center items-center py-8">
+                    {/* Animation: Success checkmark with confetti */}
+                    <div className="flex relative justify-center items-center">
+                      <svg
+                        className="w-20 h-20 text-green-800 animate-bounce"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          fill="#d1fae5"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M8 12l3 3 5-5"
+                        />
+                      </svg>
+                      {/* Confetti dots */}
+                      <div className="flex absolute inset-0 flex-wrap justify-center items-center pointer-events-none">
+                        {[...Array(18)].map((_, i) => (
+                          <span
+                            key={i}
+                            className={`block w-2 h-2 rounded-full bg-green-${
+                              i % 2 === 0 ? "400" : "300"
+                            } opacity-80 animate-pop delay-${i * 50}`}
+                            style={{
+                              position: "absolute",
+                              left: `${
+                                50 + 35 * Math.cos((i / 18) * 2 * Math.PI)
+                              }%`,
+                              top: `${
+                                50 + 35 * Math.sin((i / 18) * 2 * Math.PI)
+                              }%`,
+                              transform: "translate(-50%, -50%)",
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mt-4 text-2xl font-bold text-center text-green-800">
+                      Order Placed!
+                    </div>
+                    <div className="max-w-xs text-center text-gray-600">
+                      Thank you for your order. We&apos;ve received your request
+                      and will process it soon.
+                    </div>
+                    <button
+                      className="px-6 py-3 mt-6 text-lg font-bold text-white bg-green-700 rounded-full shadow transition hover:bg-green-800"
+                      onClick={() => {
+                        window.location.href = "/shop";
+                        setShowCheckout(false);
+                        setOrderSuccess(false);
+                        setForm({
+                          name: "",
+                          phone_no: "",
+                          email: "",
+                          address: "",
+                        });
+                      }}
+                    >
+                      Continue Shopping
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <h2 className="mb-6 text-2xl font-bold text-center text-gray-900">
+                      Fill this form to checkout
+                    </h2>
+                    <form className="flex flex-col gap-4">
+                      <div>
+                        <label className="block mb-1 text-sm font-medium text-gray-700">
+                          Name<span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={form.name}
+                          onChange={handleFormChange}
+                          className={`w-full px-4 py-2 rounded-lg border ${
+                            formErrors.name
+                              ? "border-red-400"
+                              : "border-gray-200"
+                          } focus:outline-none focus:ring-2 focus:ring-green-800`}
+                          required
+                        />
+                        {formErrors.name && (
+                          <span className="text-xs text-red-500">
+                            {formErrors.name}
+                          </span>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block mb-1 text-sm font-medium text-gray-700">
+                          Phone No.<span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="tel"
+                          name="phone_no"
+                          value={form.phone_no}
+                          onChange={handleFormChange}
+                          className={`w-full px-4 py-2 rounded-lg border ${
+                            formErrors.phone_no
+                              ? "border-red-400"
+                              : "border-gray-200"
+                          } focus:outline-none focus:ring-2 focus:ring-green-800`}
+                          required
+                        />
+                        {formErrors.phone_no && (
+                          <span className="text-xs text-red-500">
+                            {formErrors.phone_no}
+                          </span>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block mb-1 text-sm font-medium text-gray-700">
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={form.email}
+                          onChange={handleFormChange}
+                          className="px-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-800"
+                        />
+                      </div>
+                      <div>
+                        <label className="block mb-1 text-sm font-medium text-gray-700">
+                          Address
+                        </label>
+                        <textarea
+                          name="address"
+                          value={form.address}
+                          onChange={handleFormChange}
+                          className="px-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-800"
+                          rows={3}
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        className="flex relative gap-3 justify-center items-center py-3 mt-4 w-full text-lg font-semibold text-white bg-green-700 rounded-full shadow-md transition-colors duration-300 hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={placingOrder}
+                        onClick={placeOrder}
+                      >
+                        {placingOrder ? (
+                          <>
+                            <span className="w-5 h-5 rounded-full border-[3px] border-white animate-spin border-t-transparent"></span>
+                            <span>Placing Order...</span>
+                          </>
+                        ) : (
+                          <span>Place Order</span>
+                        )}
+                      </button>
+
+                      {orderError && (
+                        <div className="mt-2 text-sm text-center text-red-500">
+                          {orderError}
+                        </div>
+                      )}
+                    </form>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>

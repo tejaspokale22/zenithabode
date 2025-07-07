@@ -505,7 +505,7 @@ function ShopClient() {
       );
     }
     return products;
-  }, [products, search, urlCategory]);
+  }, [products, search]);
 
   const paginatedProducts = useMemo(() => {
     return urlCategory
