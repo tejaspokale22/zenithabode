@@ -47,6 +47,19 @@ export default function GalleryPage() {
   const [currentIdx, setCurrentIdx] = useState(null);
   const modalRef = useRef();
 
+  const nextImg = () => {
+    if (currentIdx === null) return;
+    const next = (currentIdx + 1) % galleryImages.length;
+    setSelected(galleryImages[next]);
+    setCurrentIdx(next);
+  };
+  const prevImg = () => {
+    if (currentIdx === null) return;
+    const prev = (currentIdx - 1 + galleryImages.length) % galleryImages.length;
+    setSelected(galleryImages[prev]);
+    setCurrentIdx(prev);
+  };
+
   // Keyboard navigation for modal
   useEffect(() => {
     if (selected === null) return;
@@ -62,18 +75,6 @@ export default function GalleryPage() {
   const openModal = (img, idx) => {
     setSelected(img);
     setCurrentIdx(idx);
-  };
-  const nextImg = () => {
-    if (currentIdx === null) return;
-    const next = (currentIdx + 1) % galleryImages.length;
-    setSelected(galleryImages[next]);
-    setCurrentIdx(next);
-  };
-  const prevImg = () => {
-    if (currentIdx === null) return;
-    const prev = (currentIdx - 1 + galleryImages.length) % galleryImages.length;
-    setSelected(galleryImages[prev]);
-    setCurrentIdx(prev);
   };
 
   return (
@@ -101,7 +102,7 @@ export default function GalleryPage() {
           <h1 className="mb-2 text-3xl font-extrabold tracking-tight text-white drop-shadow-lg md:text-5xl">
             Our Gallery
           </h1>
-          <p className="mx-auto max-w-xl text-lg font-medium md:text-2xl text-white/90">
+          <p className="mx-auto max-w-2xl text-lg font-normal text-white/90">
             Explore our curated collection of beautiful interior designs and
             inspirations.
           </p>

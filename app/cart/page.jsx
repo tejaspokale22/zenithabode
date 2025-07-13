@@ -126,7 +126,7 @@ export default function CartPage() {
               {/* Cart Table Section */}
               <section className="relative flex-1 p-2 min-w-0 bg-gray-50 rounded-2xl border border-gray-100 shadow-sm sm:p-4 md:p-6 lg:p-8">
                 <div className="flex flex-col gap-2 mb-6 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
-                  <h1 className="text-2xl font-extrabold text-gray-900 drop-shadow-lg sm:text-3xl">
+                  <h1 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
                     Shopping Cart
                   </h1>
                   <span className="text-base font-semibold text-gray-500 sm:text-lg">

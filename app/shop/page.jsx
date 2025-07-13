@@ -105,7 +105,7 @@ const ProductCard = ({ product, index }) => {
   return (
     <div
       className={
-        "flex overflow-hidden relative flex-col bg-white rounded-2xl border border-gray-100 shadow-md group hover:shadow-2xl min-h-[420px] sm:min-h-[440px]"
+        "flex overflow-hidden relative flex-col bg-white rounded-2xl border border-gray-100 shadow-md transition-all duration-300 ease-in-out group hover:shadow-lg hover:-translate-y-1 min-h-[420px] sm:min-h-[440px]"
       }
     >
       <div className="flex relative justify-center items-center p-3 sm:p-4 w-full h-56 sm:h-[300px] bg-gray-50">
@@ -379,7 +379,7 @@ const ProductDetail = ({ product, similarProducts, onBack }) => {
         </div>
       </div>
       {/* Similar Products */}
-      <div className="flex-1 min-w-[180px] xs:min-w-[220px] max-w-xs bg-white border-l border-gray-200 px-2 xs:px-4 pt-2 hidden lg:block">
+      <div className="flex-1 min-w-[180px] xs:min-w-[220px] max-w-xs bg-white px-2 xs:px-4 pt-2 hidden lg:block">
         <h3 className="mt-2 mb-3 text-lg font-bold text-green-800">
           Similar Products
         </h3>
